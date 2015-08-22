@@ -1,16 +1,16 @@
 <!DOCTYPE html> <html>
 	<head>
 	<title></title>
-	<script src="http://threejs.org/build/three.js" />
 	<meta charset="utf-8">
 
 	</head>
 
 	<body>
-		<div id="WebGL-output" />
+		<div id="WebGL-output"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script type="text/javascript">
 			function init{
-			
+
 
 			};
 			window.onload = init;
