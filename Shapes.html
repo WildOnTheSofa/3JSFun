@@ -1,0 +1,33 @@
+<!DOCTYPE html> <html>
+	<head>
+	<title></title>
+	<script src="http://threejs.org/build/three.js" />
+	<meta charset="utf-8">
+
+	</head>
+
+	<body>
+		<div id="WebGL-output" />
+		<script type="text/javascript">
+			function init{
+				var width = window.innerWidth;
+				var height = window.innerHeight;
+				var scene = new THREE.scene;
+				var camera = new THREE.PerspectiveCamera(70, width/height, 0.1, 1000);
+				var renderer = new THREE.WebGlRenderer;
+
+				renderer.setClearColor(0xff0000);
+				renderer.setSize(width,height);
+
+				var axes = new THREE.AxisHelper(20);
+				scene.add(axes);
+
+				//var planeGeometry = new THREE.planeGeometry()
+
+			};
+			window.onload = init;
+
+		</script>
+
+	</body>
+</html>

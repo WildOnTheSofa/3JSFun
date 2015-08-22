@@ -1,0 +1,21 @@
+<!DOCTYPE html> <html>
+	<head>
+	<title></title>
+	<script src="http://threejs.org/build/three.js" />
+	<meta charset="utf-8">
+
+	</head>
+
+	<body>
+		<div id="WebGL-output" />
+		<script type="text/javascript">
+			function init{
+			
+
+			};
+			window.onload = init;
+
+		</script>
+
+	</body>
+</html>
