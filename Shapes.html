@@ -13,16 +13,16 @@
 	<body>
 
 		<div id="WebGL-output" > </div>
-		<script src="http://http://threejs.org/build/three.js" > </script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js" > </script>
 		<script type="text/javascript">
 			function init(){
 				console.log("blah");
 
 				var width = window.innerWidth;
 				var height = window.innerHeight;
-				var scene = new THREE.scene;
+				var scene = new THREE.Scene();
 				var camera = new THREE.PerspectiveCamera(70, width/height, 0.1, 1000);
-				var renderer = new THREE.WebGlRenderer;
+				var renderer = new THREE.WebGLRenderer();
 
 				renderer.setClearColor(0xEEEEEE);
 				renderer.setSize(width,height);
@@ -30,7 +30,7 @@
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
 
-				var planeGeometry = new THREE.planeGeometry(60,20);
+				var planeGeometry = new THREE.PlaneGeometry(60,20);
 				var planeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
 				var plane = THREE.Mesh(planeGeometry,planeMaterial);
 
