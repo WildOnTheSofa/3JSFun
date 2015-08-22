@@ -13,23 +13,81 @@
 		<script type="text/javascript">
 			function init(){
 				console.log("blah");
-				/*
+
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 				var scene = new THREE.scene;
 				var camera = new THREE.PerspectiveCamera(70, width/height, 0.1, 1000);
 				var renderer = new THREE.WebGlRenderer;
 
-				renderer.setClearColor(0xff0000);
+				renderer.setClearColor(0xEEEEEE);
 				renderer.setSize(width,height);
 
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
 
-				//var planeGeometry = new THREE.planeGeometry()
-				*/
+				var planeGeometry = new THREE.planeGeometry(60,20);
+				var planeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+				var plane = THREE.Mesh(planeGeometry,planeMaterial);
+
+				plane.rotation.x = -0.5*Math.Pi;
+				plane.rotation.y = 0;
+				plane.rotation.z = 0;
+
+				plane.position.x = 15;
+				plane.position.y = 0;
+				plane.position.z = 0;
+				scene.add(plane);
+
+				var cubeGeometry = new THREE.BoxGeometry(4,4,4);
+				var cubeMaterial = new THREE.MeshBasicMaterial({color: 0x700000});
+				var cube = THREE.Mesh(cubeGeometry,cubeMaterial);
+
+				cube.rotation.x = 0;
+				cube.rotation.y = 0;
+				cube.rotation.z = 0;
+
+				cube.position.x = 0;
+				cube.position.y = 3;
+				cube.position.z = -4;
+				scene.add(cube);
+
+				var sphereGeometry = new THREE.SphereGeometry(4,20,20);
+				var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xCC6633});
+				var sphere = new THREE.Mesh(sphereMaterial,sphereGeometry);
+
+				sphere.rotation.x=0;
+				sphere.rotation.y=0;
+				sphere.rotation.z=0;
+
+				sphere.position.x=20;
+				shpere.position.y=4;
+				shpere.position.z=2;
+				scene.add(sphere);
+
+				var cylinderGeometry = new THREE.CylinderGeometry(5,5,20);
+				var cylinderMaterial = new THREE.MeshBasicMaterial({color: 0xCC6633});
+				var cylinder = new THREE.Mesh(sphereMaterial,sphereGeometry);
+
+				cylinder.rotation.x=0;
+				cylinder.rotation.y=0;
+				cylinder.rotation.z=0;
+
+				cylinder.position.x=0;
+				cylinder.position.y=0;
+				cylinder.position.z=0;
+				scene.add(cylinder);
+
+				camera.position.x=-30;
+				camera.position.y=40;
+				camera.position.z=30;
+				camera.lookAt(scene.position);
+
+				document.getElementById("WebGL-output").appendChild(renderer.domElement);
+				renderer.render(scene, camera); 
+
 			};
-		//	window.onload = init;
+			window.onload = init;
 
 		</script>
 
