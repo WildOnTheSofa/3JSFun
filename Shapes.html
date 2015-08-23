@@ -13,44 +13,34 @@
 	<body>
 
 		<div id="WebGL-output" > </div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js" > </script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.js" > </script>
 		<script type="text/javascript">
 			function init(){
-				console.log("blah");
-
 				var width = window.innerWidth;
 				var height = window.innerHeight;
+
 				var scene = new THREE.Scene();
-				var camera = new THREE.PerspectiveCamera(70, width/height, 0.1, 1000);
+				var camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
 				var renderer = new THREE.WebGLRenderer();
 
-				renderer.setClearColor(0xEEEEEE);
+				renderer.setClearColorHex(0xEEEEEE);
 				renderer.setSize(width,height);
 
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
 
-				var planeGeometry = new THREE.PlaneGeometry(60,20);
-				var planeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
-				var plane = THREE.Mesh(planeGeometry,planeMaterial);
-
-				plane.rotation.x = -0.5*Math.Pi;
-				plane.rotation.y = 0;
-				plane.rotation.z = 0;
-
+				var planeGeometry = new THREE.PlaneGeometry(60,20,1,1);
+				var planeMaterial = new THREE.MeshBasicMaterial({color: 0xcccccc});
+				var plane = new THREE.Mesh(planeGeometry,planeMaterial);
+				plane.rotation.x = -0.5 * Math.Pi;
 				plane.position.x = 15;
 				plane.position.y = 0;
 				plane.position.z = 0;
 				scene.add(plane);
 
 				var cubeGeometry = new THREE.BoxGeometry(4,4,4);
-				var cubeMaterial = new THREE.MeshBasicMaterial({color: 0x700000});
-				var cube = THREE.Mesh(cubeGeometry,cubeMaterial);
-
-				cube.rotation.x = 0;
-				cube.rotation.y = 0;
-				cube.rotation.z = 0;
-
+				var cubeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+				var cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
 				cube.position.x = 0;
 				cube.position.y = 3;
 				cube.position.z = -4;
@@ -58,25 +48,16 @@
 
 				var sphereGeometry = new THREE.SphereGeometry(4,20,20);
 				var sphereMaterial = new THREE.MeshBasicMaterial({color: 0xCC6633});
-				var sphere = new THREE.Mesh(sphereMaterial,sphereGeometry);
-
-				sphere.rotation.x=0;
-				sphere.rotation.y=0;
-				sphere.rotation.z=0;
-
+				var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+			//	sphere.rotation.x=-0.1 ; //* Math.Pi;
 				sphere.position.x=20;
-				shpere.position.y=4;
-				shpere.position.z=2;
+				sphere.position.y=4;
+				sphere.position.z=2;
 				scene.add(sphere);
 
 				var cylinderGeometry = new THREE.CylinderGeometry(5,5,20);
 				var cylinderMaterial = new THREE.MeshBasicMaterial({color: 0xCC6633});
-				var cylinder = new THREE.Mesh(sphereMaterial,sphereGeometry);
-
-				cylinder.rotation.x=0;
-				cylinder.rotation.y=0;
-				cylinder.rotation.z=0;
-
+				var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
 				cylinder.position.x=0;
 				cylinder.position.y=0;
 				cylinder.position.z=0;
