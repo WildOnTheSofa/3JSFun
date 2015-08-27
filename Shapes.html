@@ -2,8 +2,12 @@
 <html>
 	<head>
 		<title>Ruz</title>
-
 		<meta charset="utf-8">
+		<meta http-equiv="cache-control" content="max-age=0" />
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+		<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+		<meta http-equiv="pragma" content="no-cache" />
 		<style>
 			body { margin: 0; overflow: hidden;}
 			canvas { width: 100%; height: 100% }
@@ -13,13 +17,29 @@
 	<body>
 
 		<div id="WebGL-output"></div>
-		<div id=Stats-output"></div>
+		<div id="Stats-output"></div>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.js" > </script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.js"></script>
 		<script type="text/javascript">
-			var step;
+
 			function init(){
+
+				function renderScene(){
+					stats.update();
+
+					step+=0.04;
+					sphere.position.x = 20  + (10 * (Math.cos(step)));
+					sphere.position.y = 2  + (10 * Math.abs(Math.sin(step)));
+					console.log ( "sphere(" + sphere.position.x + "," + sphere.position.y +  ")" )
+					cube.rotation.x += 0.02;
+
+					requestAnimationFrame(renderScene);
+					renderer.render(scene, camera);
+
+				}
+
+				var step = 0;
 				var stats = initStats();
 				var gui = new dat.GUI();
 				var width = window.innerWidth;
@@ -29,8 +49,8 @@
 				var camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
 
 				var renderer = new THREE.WebGLRenderer();
-				renderer.setClearColorHex(0xff0000);
-				//renderer.setClearColor(new THREE.Color(0xeeeeee, 1.0));
+				//renderer.setClearColorHex(0xff0000);
+				renderer.setClearColor(new THREE.Color(0xff0000, 1.0));
 				renderer.setSize(width,height);
 				renderer.shadowMapEnabled = true;
 
@@ -87,7 +107,7 @@
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
-
+				console.log("end of init");
 			};
 
 			function initStats(){// Later I want to enable both modes.
@@ -101,19 +121,7 @@
 
 			}
 
-			function renderScene(){
-				stats.update();
 
-				step+=0.04;
-				sphere.position.x = 20+(10*(Math.cos(step)));
-				sphere.position.y = 2+(10*Math.abs(Math.sin(step)))
-
-				cube.rotation.x += 0.02;
-
-				requestAnimationFrame(renderScene);
-				renderer.render(scene, camera);
-
-			}
 			window.onload = init;
 
 		</script>
