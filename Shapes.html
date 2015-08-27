@@ -51,11 +51,21 @@
 				var plane = new THREE.Mesh(planeGeometry,planeMaterial);
 				plane.receiveShadow= true;
 				plane.rotation.x = -0.5 * Math.PI;
-				plane.rotation.z = 0;
 				plane.position.x = 15;
 				plane.position.y = 0;
 				plane.position.z = 0;
 				scene.add(plane);
+
+				var plane2Geometry = new THREE.PlaneGeometry(90,20);
+				var plane2Material = new THREE.MeshLambertMaterial({color: 0xcccccc});
+				var plane2 = new THREE.Mesh(planeGeometry,planeMaterial);
+				plane2.receiveShadow= true;
+				plane2.rotation.x = -0.5 * Math.PI;
+				plane2.position.x = 15;
+				plane2.position.y = 20;
+				plane2.position.z = -5;
+				scene.add(plane2);
+
 
 			 	var cubeGeometry = new THREE.BoxGeometry(6,6,6);
 			 	var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xe3e300});
@@ -101,9 +111,9 @@
 				renderScene();
 
 				var controls = new function() {
-					this.rotationSpeed = 0.02;
+					this.rotationSpeed = 0.04;
 					this.bouncingSpeed = 0.03;
-					this.jumpingSpeed = 0.2;
+					this.jumpingSpeed = 0.03;
 				}
 				gui.add(controls, 'rotationSpeed', 0, 0.1);
 				gui.add(controls, 'bouncingSpeed', 0, 0.1);
@@ -112,14 +122,14 @@
 				function renderScene(){
 					stats.update();
 
-					stepBounce+=controls.bouncingSpeed;
+					/*stepBounce+=controls.bouncingSpeed;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
 					sphere.position.y = 2  + (10 * Math.abs(Math.sin(Bounce)));
 
 					cube.rotation.y += controls.rotationSpeed;
 
 					stepJump+=controls.jumpingSpeed;
-					sphere.position.y = 2 + (10 * Math.abs(Math.sin(stepJump)));
+					sphere.position.y = 2 + (10 * Math.abs(Math.sin(stepJump)));*/
 
 					requestAnimationFrame(renderScene);
 					renderer.render(scene, camera);
