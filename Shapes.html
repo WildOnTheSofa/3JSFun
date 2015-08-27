@@ -25,9 +25,9 @@
 			var scene,camera,renderer;
 
 			var controls = new function() {
-				this.rotationSpeed = 0.04;
-				this.bouncingSpeed = 0.03;
-				this.jumpingSpeed = 0.03;
+				this.rotationSpeed = 40;
+				this.bouncingSpeed = 30;
+				this.jumpingSpeed = 30;
 			}
 
 			function init(){
@@ -68,7 +68,7 @@
 				plane2.receiveShadow= true;
 				plane2.rotation.x = -0.5 * Math.PI;
 				plane2.position.x = 15;
-				plane2.position.y = 20;
+				plane2.position.y = 17.6;
 				plane2.position.z = -5;
 				scene.add(plane2);
 
@@ -102,7 +102,7 @@
 				scene.add(cylinder);
 
 				camera.position.x=0;
-				camera.position.y=40;
+				camera.position.y=35;
 				camera.position.z=40;
 				camera.lookAt(scene.position);
 
@@ -118,21 +118,21 @@
 				renderScene();
 
 
-				gui.add(controls, 'rotationSpeed', 0, 0.1);
-				gui.add(controls, 'bouncingSpeed', 0, 0.1);
-				gui.add(controls, 'jumpingSpeed', 0, 1);
+				gui.add(controls, 'rotationSpeed', 0, 100, 1);
+				gui.add(controls, 'bouncingSpeed', 0, 100, 1);
+				gui.add(controls, 'jumpingSpeed', 0, 100, 1);
 
 
 				function renderScene(){
 					stats.update();
 
-					stepBounce+=controls.bouncingSpeed;
+					stepBounce += controls.bouncingSpeed/1000;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
 					sphere.position.y = 2  + (10 * Math.abs(Math.sin(stepBounce)));
 
-					cube.rotation.y += controls.rotationSpeed;
+					cube.rotation.y += controls.rotationSpeed/1000;
 
-					stepJump+=controls.jumpingSpeed;
+					stepJump += controls.jumpingSpeed/1000;
 					cylinder.position.y = 2 + (10 * Math.abs(Math.sin(stepJump)));
 
 					requestAnimationFrame(renderScene);
