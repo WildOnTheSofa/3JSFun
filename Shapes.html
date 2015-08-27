@@ -26,32 +26,9 @@
 
 			function init(){
 
-				function renderScene(){
-					stats.update();
-
-					step+=0.04;
-					sphere.position.x = 20  + (10 * (Math.cos(step)));
-					sphere.position.y = 2  + (10 * Math.abs(Math.sin(step)));
-					//console.log ( "sphere(" + sphere.position.x + "," + sphere.position.y +  ")" )
-					cube.rotation.y += 0.04;
-
-					count+=1;
-					if(count == 101){
-						count = 1;
-					}
-					if(count < 51){
-						cylinder.position.y +=0.20;
-					} else {
-						cylinder.position.y -=0.20;
-					}
-
-					requestAnimationFrame(renderScene);
-					renderer.render(scene, camera);
-
-				}
-
-				var count = 0;
-				var step = 0;
+				var mode = 0;
+				var stepBounce = 0;
+				var stepJump = 0;
 				var stats = initStats();
 				var gui = new dat.GUI();
 				var width = window.innerWidth;
@@ -85,9 +62,7 @@
 			 	var cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
 				cube.castShadow = true;
 			 	cube.position.x = 0;
-			 	cube.position.y = 3;
-			 	cube.position.z = 2;
-			 	scene.add(cube);
+			 	cube.position.y = 3;console.log("end of init");
 
 			 	var sphereGeometry = new THREE.SphereGeometry(4,20,20);
 			 	var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xcc6633});
@@ -124,8 +99,34 @@
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
-				
-				console.log("end of init");
+
+				var controls = new function() {
+					this.rotationSpeed = 0.02;
+					this.bouncingSpeed = 0.03;
+					this.jumpingSpeed = 0.2;
+				}
+				gui.add(controls, 'rotationSpeed', 0, 0.1);
+				gui.add(controls, 'bouncingSpeed', 0, 0.1);
+				gui.add(controls, 'jumpingSpeed', 0, 1);
+
+				function renderScene(){
+					stats.update();
+
+					stepBounce+=controls.bouncingSpeed;
+					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
+					sphere.position.y = 2  + (10 * Math.abs(Math.sin(Bounce)));
+
+					cube.rotation.y += controls.rotationSpeed;
+
+					stepJump+=controls.jumpingSpeed;
+					sphere.position.y = 2 + (10 * Math.abs(Math.sin(stepJump)));
+
+					requestAnimationFrame(renderScene);
+					renderer.render(scene, camera);
+
+				}
+
+
 			};
 
 			function initStats(){// Later I want to enable both modes.
