@@ -24,6 +24,12 @@
 		<script type="text/javascript">
 			var scene,camera,renderer;
 
+			var controls = new function() {
+				this.rotationSpeed = 0.04;
+				this.bouncingSpeed = 0.03;
+				this.jumpingSpeed = 0.03;
+			}
+
 			function init(){
 
 				var mode = 0;
@@ -72,7 +78,8 @@
 			 	var cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
 				cube.castShadow = true;
 			 	cube.position.x = 0;
-			 	cube.position.y = 3;console.log("end of init");
+			 	cube.position.y = 3;
+				scene.add(cube);
 
 			 	var sphereGeometry = new THREE.SphereGeometry(4,20,20);
 			 	var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xcc6633});
@@ -110,26 +117,23 @@
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
 
-				var controls = new function() {
-					this.rotationSpeed = 0.04;
-					this.bouncingSpeed = 0.03;
-					this.jumpingSpeed = 0.03;
-				}
+
 				gui.add(controls, 'rotationSpeed', 0, 0.1);
 				gui.add(controls, 'bouncingSpeed', 0, 0.1);
 				gui.add(controls, 'jumpingSpeed', 0, 1);
 
+
 				function renderScene(){
 					stats.update();
 
-					/*stepBounce+=controls.bouncingSpeed;
+					stepBounce+=controls.bouncingSpeed;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
-					sphere.position.y = 2  + (10 * Math.abs(Math.sin(Bounce)));
+					sphere.position.y = 2  + (10 * Math.abs(Math.sin(stepBounce)));
 
 					cube.rotation.y += controls.rotationSpeed;
 
 					stepJump+=controls.jumpingSpeed;
-					sphere.position.y = 2 + (10 * Math.abs(Math.sin(stepJump)));*/
+					cylinder.position.y = 2 + (10 * Math.abs(Math.sin(stepJump)));
 
 					requestAnimationFrame(renderScene);
 					renderer.render(scene, camera);
