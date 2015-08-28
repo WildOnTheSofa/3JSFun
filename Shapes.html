@@ -29,9 +29,7 @@
 				this.bouncingSpeed = 50;
 				this.jumpingSpeed = 50;
 				this.lightIntensity = 2;
-				this.rotateCameraX = 0;
-				this rotateCameraY = 0;
-				this.rotateCameraZ = 0;
+
 			}
 
 			function init(){
@@ -126,19 +124,12 @@
 				gui.add(controls, 'bouncingSpeed', 0, 100, 1);
 				gui.add(controls, 'jumpingSpeed', 0, 100, 1);
 				gui.add(controls, 'lightIntensity', 0, 10, 1);
-				gui.add(controls, 'rotateCameraX', -45, 45, 1);
-				gui.add(controls, 'rotateCameraY', -45, 45, 1);
-				gui.add(controls, 'rotateCameraZ', -45, 45, 1);
 
 
 				function renderScene(){
 					stats.update();
 
 					spotLight.intensity = controls.lightIntensity;
-
-					camera.rotation.x=controls.rotateCameraX*180;
-					camera.rotation.y=controls.rotateCameraY*180;
-					camera.rotation.z=controls.rotateCameraZ*180;
 
 					stepBounce += controls.bouncingSpeed/1000;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
