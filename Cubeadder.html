@@ -1,0 +1,80 @@
+<!DOCTYPE html> <html>
+	<head>
+	<title></title>
+	<meta charset="utf-8">
+
+	</head>
+
+	<body>
+		<div id="WebGL-output"></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
+		<script type="text/javascript">
+			function init{
+
+				setSize = new function(){
+						size = new Math.ceil(Math.random() * 3) + (Math.random() * 3) - 1.5; //'-' would also do the same job.
+						if (size < 0) {
+							return setSize();
+						}
+						return size;
+				}
+
+				var size = 0;
+
+				var width = window.innerWidth:
+				var height = window.innerHeight;
+
+				var scene = new THREE.Scene();
+
+				var camera = new THREE.PerspectiveCamera(45, width, height, 0.1, 1000);
+				scene.add(camera);
+
+				var renderer = new WebGLRenderer();
+				renderer.setClearColor(new THREE.Color(0xEEEEEE));
+				renderer.setSize(width, height);
+				renderer.shadowMapEnabled = true;
+
+				var planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
+				var planeMaterial = new THREE.MeshLambertMaterial({color: 0xffffff});
+				var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+				plane.reciveShadow = true;
+				scene.add(plane);
+
+				camera.position.x = -30;
+				camera.position.y = 40;
+				camera.position.z = 30;
+
+				var ambientLight = new THREE.AmbientLight(0x0c0c0c);
+				scene.add(ambientLight);
+
+				var spotLight = new THREE.SpotLight(0xffffff);
+				spotLight.position.x = -40;
+				spotLight.position.x = 60;
+				spotLight.position.x = -10;
+				spotLight.castShadow = true;
+				scene.add(spotLight);
+
+				this.addCuboid = new function {
+					var cuboidSizeX = setSize();
+					var cuboidSizeY = setSize();
+					var cuboidSizeZ = setSize();
+
+					var cuboidGeometry = new THREE.BoxGeometry(cuboidSizeX, cuboidSizeY, cuboidSizeZ);
+					var cuboidMaterial = new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff});
+					var cuboid = new THREE.Mesh(cuboidGeometry, cuboidMaterial);
+					cuboid.castShadow = true;
+
+					cuboid.id = "cube-" + scene.children.length;
+					cuboid.position.x = -30 + Math.round(Math.random() * planeGeometry.width);
+					cuboid.position.y = Math.round(Math.random() * 5);
+					cuboid.position.z = -20 + Math.round(Math.random() * planeGeometry.height);
+					this.numberOfObjects = scene.children.length;
+				}
+
+			};
+			window.onload = init;
+
+		</script>
+
+	</body>
+</html>
