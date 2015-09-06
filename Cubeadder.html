@@ -60,7 +60,9 @@
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
 
-				var planeGeometry = new THREE.PlaneGeometry(30, 30);
+				var planeWidth = 40;
+				var planeHeight = 40;
+				var planeGeometry = new THREE.PlaneGeometry(planeWidth, planeHeight);
 				var planeMaterial = new THREE.MeshLambertMaterial({color: 0xcccccc, wireframe: true});
 				var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 				plane.rotation.x = -0.5 * Math.PI;
@@ -72,7 +74,7 @@
 
 				camera.position.x = 0;
 				camera.position.y = 10;
-				camera.position.z = -30;
+				camera.position.z = 30;
 				camera.lookAt(scene.position);
 				scene.add(camera);
 
@@ -82,7 +84,7 @@
 				var spotLight = new THREE.SpotLight(0xffffff);
 				spotLight.position.x = 0;
 				spotLight.position.y = 10;
-				spotLight.position.z = -30;
+				spotLight.position.z = 30;
 				spotLight.castShadow = true;
 				scene.add(spotLight);
 
@@ -97,10 +99,10 @@
 					cuboid.castShadow = true;
 
 					cuboid.id = "cube-" + scene.children.length;
-					cuboid.position.x = (Math.random() * sign) * 30 - (6 * sign);
+					cuboid.position.x = (Math.random() * sign) * planeWidth / 2 - (cuboidSizeX * sign);
 					sign = setSign();
 					cuboid.position.y = 0;
-					cuboid.position.z = (Math.random() * sign) * 30 - (6 * sign);
+					cuboid.position.z = (Math.random() * sign) * planeHeight / 2 - (cuboidSizeZ * sign);
 					sign = setSign();
 					console.log("X: " + cuboid.position.x);
 					console.log("Z: " + cuboid.position.z);
