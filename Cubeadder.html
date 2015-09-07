@@ -21,47 +21,61 @@
 		<script type="text/javascript">
 
 			function init(){
+				var boolean = true;
+				var scene = new THREE.Scene();
 				var controls = new function(){
 					this.lightIntensity = 20;
 					this.cuboidsAdded = 1;
 					this.cuboidsRemoved = 1;
-					this.rotationSpeedX = 0.2; // 20
-					this.rotationSpeedY = 0.2;
-					this.rotationSpeedZ = 0.2;
+					this.rotationSpeedX = 20; // 20
+					this.rotationSpeedY = 20;
+					this.rotationSpeedZ = 20;
+					this.numberOfCuboids = 0;
 
 					this.addCuboids = function(){
-						console.log("Adding " + Math.floor(controls.cuboidsAdded) + " cuboids.");
-						for(i = controls.cuboidsAdded; i >= 0; i--){
+						for(var i = controls.cuboidsAdded - 1; i >= 0; i--){
 							addCuboid();
-							console.log("i:" + i);
 						}
-
+						console.log("Added " + Math.floor(controls.cuboidsAdded) + " cuboids.");
 					}
+
+					this.removeCuboids = function(){
+						for(var i = controls.cuboidsRemoved - 1; ((i >= 0) && (boolean = true)); i--){
+							removeCuboid();
+						}
+						if(boolean == true){
+							console.log("Removed " + Math.floor(controls.cuboidsRemoved) + " cuboids.");
+						}
+						else{
+							console.log("Removed all cuboids.");
+						}
+					}
+
 				}
 				var gui = new dat.GUI();
 				gui.add(controls, 'lightIntensity', 0, 100, 1);
 				gui.add(controls, 'cuboidsAdded', 0, 100, 10);
 				gui.add(controls, 'cuboidsRemoved', 0, 50, 1);
-				gui.add(controls, 'rotationSpeedX', 0, 0.5);
-				gui.add(controls, 'rotationSpeedY', 0, 0.5);
-				gui.add(controls, 'rotationSpeedZ', 0, 0.5);
-
+				gui.add(controls, 'rotationSpeedX', 0, 50);
+				gui.add(controls, 'rotationSpeedY', 0, 50);
+				gui.add(controls, 'rotationSpeedZ', 0, 50);
+				gui.add(controls, 'numberOfCuboids').listen();
 				gui.add(controls, 'addCuboids');
+				gui.add(controls, 'removeCuboids');
+
+				scene.fog = new THREE.Fog(0xeee8aa, 0.01);
 
 				function setCuboidSize (){
 					return Math.ceil(Math.random() * 6);
 				}
 
 				function setSign (){
-					number = Math.round(Math.random());
+					var number = Math.round(Math.random());
 					if(number == 0){
 						number = -1;
 					}
 					return number;
 				}
-				var number = 0;
-
-				var i = 0;
 
 				var sign = setSign();
 
@@ -70,7 +84,7 @@
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 
-				var scene = new THREE.Scene();
+
 
 				var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 
@@ -124,20 +138,41 @@
 					cuboid.id = "cube-" + scene.children.length;
 					cuboid.position.x = (Math.random() * sign) * planeWidth / 2 - (cuboidSizeX * sign);
 					sign = setSign();
-					cuboid.position.y = 0;
+					cuboid.position.y = 3;
 					cuboid.position.z = (Math.random() * sign) * planeHeight / 2 - (cuboidSizeZ * sign);
 					sign = setSign();
-					console.log("X: " + cuboid.position.x);
-					console.log("Z: " + cuboid.position.z);
 					scene.add(cuboid);
-					this.numberOfObjects = scene.children.length;
 				}
-				addCuboid();
+
+				function removeCuboid(){
+					var allChildren = scene.children;
+					var lastObject = allChildren[allChildren.length - 1];
+					if(lastObject instanceof THREE.Mesh && lastObject != plane){
+						scene.remove(lastObject);
+					}
+					else {
+						boolean = false;
+					}
+				}
+
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
 
 				function renderScene(){
+					scene.traverse(
+						function(obj){
+							if(obj instanceof THREE.Mesh && obj != plane){
+								obj.rotation.x+=controls.rotationSpeedX/1000;
+								obj.rotation.y+=controls.rotationSpeedY/1000;
+								obj.rotation.z+=controls.rotationSpeedZ/1000;
+							}
+						}
+					);
+
 					spotLight.intensity = controls.lightIntensity/10;
+
+					controls.numberOfCuboids = scene.children.length - 6;
+
 					requestAnimationFrame(renderScene);
 					renderer.render(scene, camera);
 				}
