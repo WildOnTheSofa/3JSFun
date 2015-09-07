@@ -19,14 +19,34 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
 		<script type="text/javascript">
-			var controls = new function(){
-				this.lightIntensity = 30;
-			}
+
 			function init(){
+				var controls = new function(){
+					this.lightIntensity = 20;
+					this.cuboidsAdded = 1;
+					this.cuboidsRemoved = 1;
+					this.rotationSpeedX = 0.2; // 20
+					this.rotationSpeedY = 0.2;
+					this.rotationSpeedZ = 0.2;
 
+					this.addCuboids = function(){
+						console.log("Adding " + Math.floor(controls.cuboidsAdded) + " cuboids.");
+						for(i = controls.cuboidsAdded; i >= 0; i--){
+							addCuboid();
+							console.log("i:" + i);
+						}
+
+					}
+				}
 				var gui = new dat.GUI();
-
 				gui.add(controls, 'lightIntensity', 0, 100, 1);
+				gui.add(controls, 'cuboidsAdded', 0, 100, 10);
+				gui.add(controls, 'cuboidsRemoved', 0, 50, 1);
+				gui.add(controls, 'rotationSpeedX', 0, 0.5);
+				gui.add(controls, 'rotationSpeedY', 0, 0.5);
+				gui.add(controls, 'rotationSpeedZ', 0, 0.5);
+
+				gui.add(controls, 'addCuboids');
 
 				function setCuboidSize (){
 					return Math.ceil(Math.random() * 6);
@@ -90,21 +110,7 @@
 				spotLight.castShadow = true;
 				scene.add(spotLight);
 
-				var controls = new function(){
-					// this.lightIntensity = 20;
-					// this.rotationSpeedX = 0.2; // 20
-					// this.rotationSpeedY = 0.2;
-					// this.rotationSpeedZ = 0.2;
-					// this.cuboidsAdded = 1;
-					// this.cuboidsRemoved = 1;
-					// this.addCuboids = function(){
-					// 	console.log("Adding " + controls.cuboidsAdded + " cuboids.");
-					// 	for(i = controls.cuboidsAdded; i != 0; i--){
-					// 		addCuboid();
-					// 	}
-					//
-					}
-				}
+
 				function addCuboid() {
 					var cuboidSizeX = setCuboidSize();
 					var cuboidSizeY = setCuboidSize();
