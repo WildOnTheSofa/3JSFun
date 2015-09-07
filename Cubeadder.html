@@ -19,10 +19,10 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
 		<script type="text/javascript">
-
+			var scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 			function init(){
 				var boolean = true;
-				var scene = new THREE.Scene();
 				var controls = new function(){
 					this.lightIntensity = 20;
 					this.cuboidsAdded = 1;
@@ -54,8 +54,8 @@
 				}
 				var gui = new dat.GUI();
 				gui.add(controls, 'lightIntensity', 0, 100, 1);
-				gui.add(controls, 'cuboidsAdded', 0, 100, 10);
-				gui.add(controls, 'cuboidsRemoved', 0, 50, 1);
+				gui.add(controls, 'cuboidsAdded', 0, 100, 1);
+				gui.add(controls, 'cuboidsRemoved', 0, 100, 1);
 				gui.add(controls, 'rotationSpeedX', 0, 50);
 				gui.add(controls, 'rotationSpeedY', 0, 50);
 				gui.add(controls, 'rotationSpeedZ', 0, 50);
@@ -83,10 +83,6 @@
 
 				var width = window.innerWidth;
 				var height = window.innerHeight;
-
-
-
-				var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 
 				var renderer = new THREE.WebGLRenderer();
 				renderer.setClearColor(new THREE.Color(0xEEEEEE));
@@ -177,7 +173,13 @@
 					renderer.render(scene, camera);
 				}
 			}
+			function onResize(){
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				rendere.setSize(window.innerWidth, window.innerHeight);
+			}
 			window.onload = init;
+			window.addEventListener('resize', onResize , false);
 
 		</script>
 
