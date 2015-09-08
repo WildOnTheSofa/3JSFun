@@ -19,6 +19,8 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
 		<script type="text/javascript">
+		var width = window.innerWidth;
+		var height = window.innerHeight;
 			var scene = new THREE.Scene();
 			var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 			function init(){
@@ -63,7 +65,7 @@
 				gui.add(controls, 'addCuboids');
 				gui.add(controls, 'removeCuboids');
 
-				scene.fog = new THREE.Fog(0xeee8aa, 0.01);
+				scene.fog = new THREE.Fog(0xeee8c8, 0, 75);
 
 				function setCuboidSize (){
 					return Math.ceil(Math.random() * 6);
@@ -81,8 +83,7 @@
 
 				var size = 0;
 
-				var width = window.innerWidth;
-				var height = window.innerHeight;
+
 
 				var renderer = new THREE.WebGLRenderer();
 				renderer.setClearColor(new THREE.Color(0xEEEEEE));
@@ -176,7 +177,7 @@
 			function onResize(){
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
-				rendere.setSize(window.innerWidth, window.innerHeight);
+				renderer.setSize(window.innerWidth, window.innerHeight);
 			}
 			window.onload = init;
 			window.addEventListener('resize', onResize , false);
