@@ -25,6 +25,9 @@
 			var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 			function init(){
 				var boolean = true;
+				var boolean2 = true;
+				var step = 0;
+				var cuboidHeight = 3;
 				var controls = new function(){
 					this.lightIntensity = 20;
 					this.cuboidsAdded = 1;
@@ -53,6 +56,10 @@
 						}
 					}
 
+					this.cuboidJump = function(){
+						boolean2 = true;
+					}
+
 				}
 				var gui = new dat.GUI();
 				gui.add(controls, 'lightIntensity', 0, 100, 1);
@@ -65,7 +72,7 @@
 				gui.add(controls, 'addCuboids');
 				gui.add(controls, 'removeCuboids');
 
-				scene.fog = new THREE.Fog(0xeee8c8, 0, 75);
+				scene.fog = new THREE.Fog(0xeee8c8, 3, 60);
 
 				function setCuboidSize (){
 					return Math.ceil(Math.random() * 6);
@@ -135,7 +142,7 @@
 					cuboid.id = "cube-" + scene.children.length;
 					cuboid.position.x = (Math.random() * sign) * planeWidth / 2 - (cuboidSizeX * sign);
 					sign = setSign();
-					cuboid.position.y = 3;
+					cuboid.position.y = cuboidHeight;
 					cuboid.position.z = (Math.random() * sign) * planeHeight / 2 - (cuboidSizeZ * sign);
 					sign = setSign();
 					scene.add(cuboid);
@@ -166,6 +173,19 @@
 						}
 					);
 
+					while(boolean2 == true){
+						step += 0.04;
+						var allChildren = scene.children;
+						var object = allChildren[allChildren.length - Math.ceil(Math.random() * controls.numberOfCuboids)];
+
+						if(object instanceof THREE.Mesh && object != plane){
+							object.position.y = 20  + (10 * (Math.cos(step)));
+							if(object.position.y == cuboidHeight){
+								boolean2 = false;
+							}
+						}
+					}
+
 					spotLight.intensity = controls.lightIntensity/10;
 
 					controls.numberOfCuboids = scene.children.length - 6;
@@ -179,6 +199,9 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize(window.innerWidth, window.innerHeight);
 			}
+			/*function initStats(){
+
+			}*/
 			window.onload = init;
 			window.addEventListener('resize', onResize , false);
 
