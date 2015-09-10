@@ -21,11 +21,13 @@
 		<script type="text/javascript">
 		var width = window.innerWidth;
 		var height = window.innerHeight;
-			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+
+
+			var camera;
+			var renderer;
 			function init(){
-				var boolean = true;
-				var boolean2 = true;
+				var scene = new THREE.Scene();
+				camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
 				var step = 0;
 				var cuboidHeight = 3;
 				var controls = new function(){
@@ -38,26 +40,30 @@
 					this.numberOfCuboids = 0;
 
 					this.addCuboids = function(){
-						for(var i = controls.cuboidsAdded - 1; i >= 0; i--){
+						for(var i = controls.cuboidsAdded; i > 0; i--){
 							addCuboid();
 						}
 						console.log("Added " + Math.floor(controls.cuboidsAdded) + " cuboids.");
 					}
 
 					this.removeCuboids = function(){
-						for(var i = controls.cuboidsRemoved - 1; ((i >= 0) && (boolean = true)); i--){
+						var i;
+						for(i = 0; i < controls.cuboidsRemoved; i++){
+							if (!cuboidsRemaining()) break;
 							removeCuboid();
 						}
-						if(boolean == true){
-							console.log("Removed " + Math.floor(controls.cuboidsRemoved) + " cuboids.");
+
+						if (!cuboidsRemaining()) {
+							console.log("Removed all cuboids");
+						} else {
+							console.log("Removed " + i +  " cuboids");
 						}
-						else{
-							console.log("Removed all cuboids.");
-						}
+
+
 					}
 
 					this.cuboidJump = function(){
-						boolean2 = true;
+
 					}
 
 				}
@@ -92,7 +98,7 @@
 
 
 
-				var renderer = new THREE.WebGLRenderer();
+				renderer = new THREE.WebGLRenderer();
 				renderer.setClearColor(new THREE.Color(0xEEEEEE));
 				renderer.setSize(width, height);
 				renderer.shadowMapEnabled = true;
@@ -148,15 +154,21 @@
 					scene.add(cuboid);
 				}
 
+				function cuboidsRemaining() {
+					var allChildren = scene.children;
+					if (allChildren.length == 0) return false;
+					var lastObject = allChildren[allChildren.length - 1];
+					var isACuboid = (lastObject instanceof THREE.Mesh && lastObject != plane);
+					return isACuboid;
+				}
+
 				function removeCuboid(){
 					var allChildren = scene.children;
 					var lastObject = allChildren[allChildren.length - 1];
 					if(lastObject instanceof THREE.Mesh && lastObject != plane){
 						scene.remove(lastObject);
 					}
-					else {
-						boolean = false;
-					}
+
 				}
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
@@ -173,18 +185,18 @@
 						}
 					);
 
-					while(boolean2 == true){
-						step += 0.04;
-						var allChildren = scene.children;
-						var object = allChildren[allChildren.length - Math.ceil(Math.random() * controls.numberOfCuboids)];
-
-						if(object instanceof THREE.Mesh && object != plane){
-							object.position.y = 20  + (10 * (Math.cos(step)));
-							if(object.position.y == cuboidHeight){
-								boolean2 = false;
-							}
-						}
-					}
+					// while(readyToJump == true){
+					// 	step += 0.04;
+					// 	var allChildren = scene.children;
+					// 	var object = allChildren[allChildren.length - Math.ceil(Math.random() * controls.numberOfCuboids)];
+					//
+					// 	if(object instanceof THREE.Mesh && object != plane){
+					// 		object.position.y = 20  + (10 * (Math.cos(step)));
+					// 		if(object.position.y == cuboidHeight){
+					// 			readyToJump = false;
+					// 		}
+					// 	}
+					// }
 
 					spotLight.intensity = controls.lightIntensity/10;
 
