@@ -181,6 +181,8 @@
 								obj.rotation.x+=controls.rotationSpeedX/1000;
 								obj.rotation.y+=controls.rotationSpeedY/1000;
 								obj.rotation.z+=controls.rotationSpeedZ/1000;
+								step += 0.01;
+								obj.position.y = 1.5 + (7.5 * Math.abs((Math.cos(step))));
 							}
 						}
 					);
