@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>CubeAdder</title>
+		<title>Cuboidadder</title>
 		<meta charset="utf-8">
 		<meta http-equiv="cache-control" content="max-age=0">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -17,8 +17,9 @@
 	<body>
 		<div id="WebGL-output"></div>
 		<div id="Stats-output"</div>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"> </script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.min.js"></script>
 		<script type="text/javascript">
 		var stats = initStats();
 		var width = window.innerWidth;
@@ -61,10 +62,6 @@
 							console.log("Removed " + i +  " cuboids");
 						}
 
-
-					}
-
-					this.cuboidJump = function(){
 
 					}
 
@@ -185,7 +182,7 @@
 								obj.rotation.y+=controls.rotationSpeedY/1000;
 								obj.rotation.z+=controls.rotationSpeedZ/1000;
 								step += 0.01;
-								obj.position.y = 1.5 + (7.5 * Math.abs((Math.cos(step))));
+								obj.position.y = 2 + (10 * Math.abs((Math.cos(step))));
 							}
 						}
 					);
