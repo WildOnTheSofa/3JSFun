@@ -18,9 +18,9 @@
 
 		<div id="WebGL-output"></div>
 		<div id="Stats-output"></div>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.js" > </script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js" > </script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"> </script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.min.js"></script>
 		<script type="text/javascript">
 			var scene,camera,renderer;
 
@@ -29,7 +29,6 @@
 				this.bouncingSpeed = 50;
 				this.jumpingSpeed = 50;
 				this.lightIntensity = 2;
-
 			}
 
 			function init(){
@@ -112,7 +111,6 @@
 				spotLight.position.x = -40;
 				spotLight.position.y = 60;
 				spotLight.position.z = -10;
-				spotLight.intensity = 5;
 				spotLight.castShadow = true;
 				scene.add(spotLight);
 

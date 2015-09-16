@@ -16,9 +16,11 @@
 
 	<body>
 		<div id="WebGL-output"></div>
+		<div id="Stats-output"</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
 		<script type="text/javascript">
+		var stats = initStats();
 		var width = window.innerWidth;
 		var height = window.innerHeight;
 
@@ -175,6 +177,7 @@
 				renderScene();
 
 				function renderScene(){
+					stats.update();
 					scene.traverse(
 						function(obj){
 							if(obj instanceof THREE.Mesh && obj != plane){
@@ -196,14 +199,23 @@
 					renderer.render(scene, camera);
 				}
 			}
+
 			function onResize(){
 				camera.aspect = window.innerWidth / window.innerHeight;
 				camera.updateProjectionMatrix();
 				renderer.setSize(window.innerWidth, window.innerHeight);
 			}
-			/*function initStats(){
 
-			}*/
+			function initStats(){
+				var stats = new Stats();
+				stats.setMode(0);
+				stats.domElement.style.position = 'absolute';
+				stats.domElement.style.left = '0px';
+				stats.domElement.style.top = '0px';
+				document.getElementById("Stats-output").appendChild(stats.domElement);
+				return stats;
+			}
+
 			window.onload = init;
 			window.addEventListener('resize', onResize , false);
 
