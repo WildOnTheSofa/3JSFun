@@ -16,7 +16,6 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.js"></script>
-		<script src="../guiExtensions.js"></script>
 		<script type="text/javascript">
 			var camera;
 			var scene;
@@ -24,6 +23,9 @@
 			var factor = 10;
 
 			function init(){
+
+				attrib = new function(){}
+
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 				var plane;
@@ -67,14 +69,13 @@
 					this.discoPartySpeed = 200;
 
 					this.discoPartyStop = function(){
-						gui.enable(controls,"discoParty");
+						attrib.removeAttribute("disabled");
 						clearInterval(interval);
 					}
 
 					this.discoParty = function(){
-						if(gui.enabled()){
-							gui.disable(controls, "discoParty");
-							gui.setColor(controls, "discoParty", 0xff0000);
+						if(attrib.hasAttribute("disabled") == false){
+							attrib.setAttribute("disabled", "");
 							interval = setInterval(function(){
 								var n = 1;
 								var allChildren = scene.children;
@@ -86,9 +87,9 @@
 							}, (-controls.discoPartySpeed) + 1001);
 						}
 					}
+				}
 
 				var gui = new dat.GUI();
-				initializeExtension(gui);
 				gui.add(controls, 'switchCamera');
 				gui.add(controls, 'view').listen();
 				gui.add(controls, 'apply');
