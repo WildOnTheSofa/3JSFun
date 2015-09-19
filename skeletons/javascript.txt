@@ -16,7 +16,7 @@
 
 
 			};
-			window.onload = initsd;
+			window.onload = init;
 
 		</script>
 
