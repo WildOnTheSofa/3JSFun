@@ -15,11 +15,13 @@
 		<div id="Stats-output"></div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.js"></script>
+		<script src="../guiExtensions.js"></script>
 		<script type="text/javascript">
 			var camera;
 			var scene;
 			var renderer;
+			var factor = 10;
 
 			function init(){
 				var width = window.innerWidth;
@@ -51,7 +53,7 @@
 
 					this.switchCamera = function(){
 						if(camera instanceof THREE.PerspectiveCamera){
-							camera = new THREE.OrthographicCamera(window.innerWidth / -10, window.innerWidth / 10, window.innerHeight / 10, window.innerHeight / -10, -500, 500);
+							camera = new THREE.OrthographicCamera(-window.innerWidth / 10, window.innerWidth / 10, window.innerHeight / 10, -window.innerHeight / 10, -500, 500);
 							controls.view = "Orthographic";
 
 						}	else {
@@ -65,23 +67,28 @@
 					this.discoPartySpeed = 200;
 
 					this.discoPartyStop = function(){
+						gui.enable(controls,"discoParty");
 						clearInterval(interval);
 					}
 
 					this.discoParty = function(){
-						interval = setInterval(function(){
-							var n = 1;
-							var allChildren = scene.children;
-							var obj = allChildren[allChildren.length - 1];
-							for(; obj instanceof THREE.Mesh && obj != plane; obj = allChildren[allChildren.length - n]){
-								obj.material.color.setRGB(discoColor(), 0.1, discoColor());
-								n++;
-							}
-						}, (-controls.discoPartySpeed) + 1001);
+						if(gui.enabled()){
+							gui.disable(controls, "discoParty");
+							gui.setColor(controls, "discoParty", 0xff0000);
+							interval = setInterval(function(){
+								var n = 1;
+								var allChildren = scene.children;
+								var obj = allChildren[allChildren.length - 1];
+								for(; obj instanceof THREE.Mesh && obj != plane; obj = allChildren[allChildren.length - n]){
+									obj.material.color.setRGB(discoColor(), 0.1, discoColor());
+									n++;
+								}
+							}, (-controls.discoPartySpeed) + 1001);
+						}
 					}
-				}
 
 				var gui = new dat.GUI();
+				initializeExtension(gui);
 				gui.add(controls, 'switchCamera');
 				gui.add(controls, 'view').listen();
 				gui.add(controls, 'apply');
@@ -173,10 +180,10 @@
 				}
 
 				else{
-					camera.left = window.innerWidth / -10;
+					camera.left = -window.innerWidth / 10;
 					camera.right = window.innerWidth / 10;
 					camera.top = window.innerHeight / 10;
-					camera.bottom = window.innerHeight / -10;
+					camera.bottom = -window.innerHeight / 10;
 				}
 
 				camera.updateProjectionMatrix();
