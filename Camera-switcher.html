@@ -69,25 +69,25 @@
 					this.discoPartySpeed = 200;
 
 					this.discoPartyStop = function(){
-						attrib.removeAttribute("disabled");
 						clearInterval(interval);
+						interval = 0;
 					}
 
 					this.discoParty = function(){
-						if(attrib.hasAttribute("disabled") == false){
-							attrib.setAttribute("disabled", "");
-							interval = setInterval(function(){
-								var n = 1;
-								var allChildren = scene.children;
-								var obj = allChildren[allChildren.length - 1];
-								for(; obj instanceof THREE.Mesh && obj != plane; obj = allChildren[allChildren.length - n]){
-									obj.material.color.setRGB(discoColor(), 0.1, discoColor());
-									n++;
-								}
-							}, (-controls.discoPartySpeed) + 1001);
-						}
-					}
-				}
+						if(interval != 0) return;
+
+						interval = setInterval(function(){
+							var n = 1;
+							var allChildren = scene.children;
+							var obj = allChildren[allChildren.length - 1];
+							for(; obj instanceof THREE.Mesh && obj != plane; obj = allChildren[allChildren.length - n]){
+								obj.material.color.setRGB(discoColor(), 0.1, discoColor());
+								n++;
+							} // for
+						}, (-controls.discoPartySpeed) + 1001); //setInterval
+					} // discoParty
+					
+				} // controls
 
 				var gui = new dat.GUI();
 				gui.add(controls, 'switchCamera');
