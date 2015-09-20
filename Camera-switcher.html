@@ -24,15 +24,13 @@
 
 			function init(){
 
-				attrib = new function(){}
-
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 				var plane;
 				var interval = 0;
 
-				function discoColor(){
-					return Math.random() * 0.75 + 0.25;
+				function discoColor(n){
+					return (Math.random() * 0.75 + 0.25) * (n/10);
 				}
 
 				var controls = new function(){
@@ -50,6 +48,9 @@
 							scene.remove(lastObject);
 						}
 						createScene(controls.width, controls.length);
+						if(interval == 0){
+							return;
+						};
 						controls.discoParty();
 					}
 
@@ -68,6 +69,10 @@
 
 					this.discoPartySpeed = 200;
 
+					this.red = 5;
+					this.green = 5;
+					this.blue = 5;
+
 					this.discoPartyStop = function(){
 						clearInterval(interval);
 						interval = 0;
@@ -81,12 +86,12 @@
 							var allChildren = scene.children;
 							var obj = allChildren[allChildren.length - 1];
 							for(; obj instanceof THREE.Mesh && obj != plane; obj = allChildren[allChildren.length - n]){
-								obj.material.color.setRGB(discoColor(), 0.1, discoColor());
+								obj.material.color.setRGB(discoColor(controls.red), discoColor(controls.green), discoColor(controls.blue));
 								n++;
 							} // for
 						}, (-controls.discoPartySpeed) + 1001); //setInterval
 					} // discoParty
-					
+
 				} // controls
 
 				var gui = new dat.GUI();
@@ -95,6 +100,9 @@
 				gui.add(controls, 'apply');
 				gui.add(controls, 'length', 0, 400, 2);
 				gui.add(controls, 'width', 0, 400, 2);
+				gui.add(controls, 'red', 0, 10, 0.5);
+				gui.add(controls, 'green', 0, 10, 0.5);
+				gui.add(controls, 'blue', 0, 10, 0.5);
 				gui.add(controls, 'discoParty');
 				gui.add(controls, 'discoPartyStop');
 				gui.add(controls, 'discoPartySpeed', 1, 1000, 1);
@@ -126,7 +134,7 @@
 					for(var j = 0; j < (planeWidth / 5); j++){
 						for(var i = 0; i < (planeLength / 5); i++){
 							var cubeMaterial = new THREE.MeshLambertMaterial();
-							cubeMaterial.color = new THREE.Color(discoColor(), 0.1, discoColor());
+							cubeMaterial.color = new THREE.Color(discoColor(controls.red), discoColor(controls.green), discoColor(controls.blue));
 							var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
 							cube.position.z = -((planeGeometry.parameters.height) / 2) + 2 + (j * 5);
@@ -153,6 +161,7 @@
 				renderScene();
 
 				function renderScene() {
+						stats.update();
 
             requestAnimationFrame(renderScene);
             renderer.render(scene, camera);
