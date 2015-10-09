@@ -123,19 +123,22 @@
 					getSquares((code - 1));
 				}
 
-				function mergeSquares(x, cube){
+				function mergeSquares(x, y){
 					console.log(x);
-					if((x[0] instanceof THREE.Geometry) == false) console.log("The problematic ones are the squares stored in x."); 
-					if(cube instanceof THREE.Geometry()) console.log("What is the problem?");
+					if((x[0] instanceof THREE.Geometry()) == false) console.log("The problematic ones are the squares stored in x.");
+					if(y instanceof THREE.Geometry()) console.log("What is the problem?");
 					else console.log("The problem's the cube.");
-					THREE.GeometryUtils.merge(cube, x[0], x[1], x[2], x[3], x[4], x[5]);
+					THREE.GeometryUtils.merge(y, x[0], x[1], x[2], x[3], x[4], x[5]);
 
 					return cube;
 				}
 
 				var squares = getSquares(6);
 				console.log(squares);
-				var cube = mergeSquares(squares, new THREE.Geometry() );
+				var cubeGeometry = mergeSquares(squares, new THREE.Geometry() );
+
+				var cube = new THREE.Mesh(cube, new THREE.MeshLambertMaterial({color: 0xff0000}));
+				cube.computeFaceNormals();
 				scene.add(cube);
 
 				render();
