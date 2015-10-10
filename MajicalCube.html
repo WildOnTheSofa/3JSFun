@@ -108,11 +108,12 @@
 
 				var faces = [new THREE.Face3(0, 2, 1), new THREE.Face3(2, 3, 1)];
 
-				function getSquares(code){
-					squares = [];
+				function getSquares(code, squares){
+
 
 					if(code < 1){
-						return squares;
+						console.log("squares:" + squares);
+						return;
 					}
 
 					var x = new THREE.Geometry();
@@ -120,21 +121,23 @@
 					x.faces = faces;
 					squares.push(x);
 
-					getSquares((code - 1));
+					getSquares((code - 1), squares);
 				}
 
 				function mergeSquares(x, y){
-					console.log(x);
-					if((x[0] instanceof THREE.Geometry()) == false) console.log("The problematic ones are the squares stored in x.");
-					if(y instanceof THREE.Geometry()) console.log("What is the problem?");
-					else console.log("The problem's the cube.");
-					THREE.GeometryUtils.merge(y, x[0], x[1], x[2], x[3], x[4], x[5]);
-
-					return cube;
+					for(var n = 1; n < 6; n++){
+						x[n].updateMatrix();
+						y.merge(x[n].geometry, x[n].matrix);
+					}
+					
+					return y;
 				}
 
-				var squares = getSquares(6);
-				console.log(squares);
+				var squares = [];
+				getSquares(6,squares);
+				console.log("squares result:" + squares);
+
+
 				var cubeGeometry = mergeSquares(squares, new THREE.Geometry() );
 
 				var cube = new THREE.Mesh(cube, new THREE.MeshLambertMaterial({color: 0xff0000}));
