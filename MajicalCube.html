@@ -125,11 +125,14 @@
 				}
 
 				function mergeSquares(x, y){
-					for(var n = 1; n < 6; n++){
-						x[n].updateMatrix();
-						y.merge(x[n].geometry, x[n].matrix);
+					for(var n = 0; n < 6; n++){
+						//x[n].updateMatrix();
+						var g = x[n];
+						// console.log("is a Geom" + (g instanceof THREE.Geometry));
+						y.merge(x[n]);
+						// console.log(y);
 					}
-					
+
 					return y;
 				}
 
@@ -139,9 +142,9 @@
 
 
 				var cubeGeometry = mergeSquares(squares, new THREE.Geometry() );
-
+				cubeGeometry.computeFaceNormals();
 				var cube = new THREE.Mesh(cube, new THREE.MeshLambertMaterial({color: 0xff0000}));
-				cube.computeFaceNormals();
+
 				scene.add(cube);
 
 				render();
@@ -153,10 +156,10 @@
 				function render() {
 						stats.update();
 
-						var vertices = [];
-						for (var i = 0; i < 8; i++) {
-								// vertices.push(new THREE.Vector3(controlPoints[i].x, controlPoints[i].y, controlPoints[i].z));
-						}
+						// var vertices = [];
+						// for (var i = 0; i < 8; i++) {
+						// 		// vertices.push(new THREE.Vector3(controlPoints[i].x, controlPoints[i].y, controlPoints[i].z));
+						// }
 
 						// mesh.children.forEach(function (e) {
 						// 		e.geometry.vertices = vertices;
