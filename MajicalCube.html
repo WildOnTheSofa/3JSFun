@@ -30,6 +30,8 @@
 				renderer.setSize(width,height);
 				renderer.shadowMapEnabled = true;
 
+				var axes = new THREE.AxisHelper(20);
+				scene.add(axes);
 
 				var spotLight = new THREE.SpotLight(0xff11ff);
 				spotLight.position.set(-40, 60, 10);
@@ -121,7 +123,7 @@
 					x.vertices = initVertices(code);
 					x.faces = faces;
 					squares.push(x);
-
+					console.log("xfaces:" + x.faces);
 					getSquares((code - 1), squares);
 				}
 
@@ -144,9 +146,9 @@
 
 				var cubeGeometry = mergeSquares(squares, new THREE.Geometry() );
 				cubeGeometry.computeFaceNormals();
-				var cube = new THREE.Mesh(cube, new THREE.MeshLambertMaterial({color: 0xffffff}));
+				var cube = new THREE.Mesh(cubeGeometry, new THREE.MeshLambertMaterial({color: 0xffffff}));
 
-				//scene.add(cube);
+				scene.add(cube);
 
 				var cvertices = [
 					new THREE.Vector3(1,3,1),
@@ -178,8 +180,10 @@
 				cgeom.vertices = cvertices;
 				cgeom.faces = cfaces;
 				cgeom.computeFaceNormals();
+				var jcube = new THREE.Mesh(cgeom, new THREE.MeshLambertMaterial({color: 0xffffff}));
+				jcube.position.z += 5;
+				scene.add(jcube);
 
-				
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				render();
