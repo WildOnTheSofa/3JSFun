@@ -18,6 +18,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.js"></script>
 		<script type="text/javascript">
 			function init(){
+
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 
@@ -26,7 +27,7 @@
 				var scene = new THREE.Scene();
 
 				var renderer = new THREE.WebGLRenderer();
-				renderer.setClearColor(new THREE.Color(0xff0000, 1.0));
+				renderer.setClearColor(new THREE.Color(0xffffff, 1.0));
 				renderer.setSize(width,height);
 				renderer.shadowMapEnabled = true;
 
@@ -47,12 +48,13 @@
 				// scene.add(plane);
 
 				var camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
-				camera.position.set(-20, 25, 20);
+				camera.position.set(-10, 10, 10);
 				camera.lookAt(new THREE.Vector3(5, 0, 0));
 				scene.add(camera);
 
 
 				function initVertices(code){
+					console.log("code:" + code);
 					if(code == 1){
 						return [
 							new THREE.Vector3(1, 3, 1),
@@ -127,8 +129,9 @@
 					getSquares((code - 1), squares);
 				}
 
+				var faceCount = 6;
 				function mergeSquares(x, y){
-					for(var n = 0; n < 6; n++){
+					for(var n = 0; n < faceCount; n++){
 						//x[n].updateMatrix();
 						var g = x[n];
 						// console.log("is a Geom" + (g instanceof THREE.Geometry));
@@ -140,32 +143,33 @@
 				}
 
 				var squares = [];
-				getSquares(6,squares);
-				console.log("squares result:" + squares);
+				getSquares(faceCount,squares);
+
 
 
 				var cubeGeometry = mergeSquares(squares, new THREE.Geometry() );
 				cubeGeometry.computeFaceNormals();
+				console.log("cubeGeometry:" + JSON.stringify(cubeGeometry));
 				var cube = new THREE.Mesh(cubeGeometry, new THREE.MeshLambertMaterial({color: 0xffffff}));
 
-				cube.rotation.y += ;
+				cube.rotation.y += 3;
 
 				scene.add(cube);
 
 				var cvertices = [
 					new THREE.Vector3(1,3,1),
 					new THREE.Vector3(1,3,-1),
-					new THREE.Vector3(1,-1,1)
-					/*new THREE.Vector3(1,-1,-1),
+					new THREE.Vector3(1,-1,1),
+					new THREE.Vector3(1,-1,-1) ,
 					new THREE.Vector3(-1,3,-1),
 					new THREE.Vector3(-1,3,1),
 					new THREE.Vector3(-1,-1,-1),
-					new THREE.Vector3(-1,-1,1)*/
+					new THREE.Vector3(-1,-1,1)
 				];
 
 				var cfaces = [
-					new THREE.Face3(0,2,1)
-					/*new THREE.Face3(2,3,1),
+					new THREE.Face3(0,2,1),
+					new THREE.Face3(2,3,1) ,
 					new THREE.Face3(4,6,5),
 					new THREE.Face3(6,7,5),
 					new THREE.Face3(4,5,1),
@@ -173,16 +177,17 @@
 					new THREE.Face3(7,6,2),
 					new THREE.Face3(6,3,2),
 					new THREE.Face3(5,7,0),
-					new THREE.Face3(7,2,0),
+					new THREE.Face3(7,2,0) ,
 					new THREE.Face3(1,3,4),
-					new THREE.Face3(3,6,4)*/
+					new THREE.Face3(3,6,4)
 				];
 
 				var cgeom = new THREE.Geometry();
 				cgeom.vertices = cvertices;
 				cgeom.faces = cfaces;
 				cgeom.computeFaceNormals();
-				var jcube = new THREE.Mesh(cgeom, new THREE.MeshLambertMaterial({color: 0xffffff}));
+				console.log("cgeom:" + JSON.stringify(cgeom));
+				var jcube = new THREE.Mesh(cgeom, new THREE.MeshLambertMaterial({color: 0xff0000}));
 				jcube.position.z += 5;
 				scene.add(jcube);
 
