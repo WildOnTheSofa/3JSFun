@@ -194,6 +194,9 @@
 
 				var cvertices = newVerticies();
 				console.log("cvertices:" + JSON.stringify(cvertices));
+
+				var groupSize = 8;
+
 				var cfaces = [
 					//0-3
 					new THREE.Face3(0,2,1),
@@ -202,19 +205,17 @@
 					new THREE.Face3(4,6,5),
 					new THREE.Face3(6,7,5),
 
-					//TODO: + 8
-					//8-11
-					new THREE.Face3(4,5,1),
-					new THREE.Face3(5,0,1),
-					//12-15
-					new THREE.Face3(7,6,2),
-					new THREE.Face3(6,3,2),
+					new THREE.Face3(4 + groupSize,5 + groupSize,1 + groupSize),
+					new THREE.Face3(5 + groupSize,0 + groupSize,1 + groupSize),
 
-					// TODO + 16
-					new THREE.Face3(5,7,0),
-					new THREE.Face3(7,2,0) ,
-					new THREE.Face3(1,3,4),
-					new THREE.Face3(3,6,4)
+					new THREE.Face3(7 + groupSize,6 + groupSize,2 + groupSize),
+					new THREE.Face3(6 + groupSize,3 + groupSize,2 + groupSize),
+
+					new THREE.Face3(5 + groupSize * 2,7 + groupSize * 2,0 + groupSize * 2),
+					new THREE.Face3(7 + groupSize * 2,2 + groupSize * 2,0 + groupSize * 2) ,
+					
+					new THREE.Face3(1 + groupSize * 2,3 + groupSize * 2,4 + groupSize * 2),
+					new THREE.Face3(3 + groupSize * 2,6 + groupSize * 2,4 + groupSize * 2)
 				];
 
 				var cgeom = new THREE.Geometry();
