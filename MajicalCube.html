@@ -52,110 +52,6 @@
 				camera.lookAt(new THREE.Vector3(5, 0, 0));
 				scene.add(camera);
 
-
-				function initVertices(code){
-					console.log("code:" + code);
-					if(code == 1){
-						return [
-							new THREE.Vector3(1, 3, 1),
-							new THREE.Vector3(1, 3, -1),
-							new THREE.Vector3(1, -1, 1),
-							new THREE.Vector3(-1, 3, -1)
-						];
-					}
-
-					if(code == 2){
-						return [
-							new THREE.Vector3(-1, 3, -1),
-							new THREE.Vector3(-1, 3, 1),
-							new THREE.Vector3(-1, -1, -1),
-							new THREE.Vector3(-1, -1, 1)
-						];
-					}
-
-					if(code == 3){
-						return [
-							new THREE.Vector3(1, 3, 1),
-							new THREE.Vector3(1, 3, -1),
-							new THREE.Vector3(-1, 3, -1),
-							new THREE.Vector3(-1, 3, 1)
-						];
-					}
-
-					if(code == 4){
-						return[
-							new THREE.Vector3(1, -1, 1),
-							new THREE.Vector3(1, -1, -1),
-							new THREE.Vector3(-1, -1, -1),
-							new THREE.Vector3(-1, -1, 1)
-						];
-					}
-
-					if(code == 5){
-						return[
-							new THREE.Vector3(1, 3, 1),
-							new THREE.Vector3(1, -1, 1),
-							new THREE.Vector3(-1, 3, 1),
-							new THREE.Vector3(-1, -1, 1)
-						];
-					}
-
-					if(code == 6){
-						return[
-							new THREE.Vector3(1, 3, -1),
-							new THREE.Vector3(1, -1, -1),
-							new THREE.Vector3(-1, 3, -1),
-							new THREE.Vector3(-1, -1, -1)
-						];
-					}
-
-				}
-
-				var faces = [new THREE.Face3(0, 2, 1), new THREE.Face3(2, 3, 1)];
-
-				function getSquares(code, squares){
-
-
-					if(code < 1){
-						console.log("squares:" + squares);
-						return;
-					}
-
-					var x = new THREE.Geometry();
-					x.vertices = initVertices(code);
-					x.faces = faces;
-					squares.push(x);
-					console.log("xfaces:" + x.faces);
-					getSquares((code - 1), squares);
-				}
-
-				var faceCount = 6;
-				function mergeSquares(x, y){
-					for(var n = 0; n < faceCount; n++){
-						//x[n].updateMatrix();
-						var g = x[n];
-						// console.log("is a Geom" + (g instanceof THREE.Geometry));
-						y.merge(x[n]);
-						// console.log(y);
-					}
-
-					return y;
-				}
-
-				var squares = [];
-				getSquares(faceCount,squares);
-
-
-
-				var cubeGeometry = mergeSquares(squares, new THREE.Geometry() );
-				cubeGeometry.computeFaceNormals();
-				console.log("cubeGeometry:" + JSON.stringify(cubeGeometry));
-				var cube = new THREE.Mesh(cubeGeometry, new THREE.MeshLambertMaterial({color: 0xffffff}));
-
-				cube.rotation.y += 3;
-
-				scene.add(cube);
-
 				function newVerticies(){
 
 					var array = [];
@@ -173,6 +69,8 @@
 					}
 					return array;
 				}
+
+
 
 				// function newFaces(){
 				//
@@ -192,8 +90,11 @@
 				// }
 
 
-				var cvertices = newVerticies();
-				console.log("cvertices:" + JSON.stringify(cvertices));
+				var vertices = newVerticies();
+				/*var vertices2 = newVerticies();
+				vertices2[3] = new THREE.Vector3(9, 9, 9);
+				console.log("vertices:" + JSON.stringify(vertices));*/
+
 
 				var groupSize = 8;
 
@@ -213,20 +114,20 @@
 
 					new THREE.Face3(5 + groupSize * 2,7 + groupSize * 2,0 + groupSize * 2),
 					new THREE.Face3(7 + groupSize * 2,2 + groupSize * 2,0 + groupSize * 2) ,
-					
+
 					new THREE.Face3(1 + groupSize * 2,3 + groupSize * 2,4 + groupSize * 2),
 					new THREE.Face3(3 + groupSize * 2,6 + groupSize * 2,4 + groupSize * 2)
 				];
 
-				var cgeom = new THREE.Geometry();
-				cgeom.vertices = cvertices;
+				var geom = new THREE.Geometry();
+				/*geom.vertices = vertices2;
 
-				cgeom.faces = cfaces;
-				cgeom.computeFaceNormals();
-				console.log("cgeom:" + JSON.stringify(cgeom));
-				var jcube = new THREE.Mesh(cgeom, new THREE.MeshLambertMaterial({color: 0xff0000}));
-				jcube.position.z += 5;
-				scene.add(jcube);
+				geom.faces = cfaces;
+				geom.computeFaceNormals();
+				console.log("geom:" + JSON.stringify(geom));*/
+				var cube = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({color: 0xff0000}));
+				cube.position.z += 5;
+				scene.add(cube);
 
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
@@ -244,11 +145,11 @@
 						// 		// vertices.push(new THREE.Vector3(controlPoints[i].x, controlPoints[i].y, controlPoints[i].z));
 						// }
 
-						// mesh.children.forEach(function (e) {
-						// 		e.geometry.vertices = vertices;
-						// 		e.geometry.verticesNeedUpdate = true;
-						// 		e.geometry.computeFaceNormals();
-						// });
+						 cube.children.forEach(function (face) {
+						 		face.geometry.vertices = vertices;
+						 		face.geometry.verticesNeedUpdate = true;
+						 		face.geometry.computeFaceNormals();
+						 });
 
 						requestAnimationFrame(render);
 						renderer.render(scene, camera);
