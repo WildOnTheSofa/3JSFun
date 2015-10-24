@@ -50,11 +50,21 @@
 
 					this.lightIntensity = 1;
 
+					this.addControl = function(x, y, z){
+						return new function(){
+							this.x = x;
+							this.y=y;
+							this.z = z;
+						}
+					}
 				}
 
 				gui.add(controls, 'clone');
 				gui.add(controls, 'lightIntensity', 0, 14, 1);
 
+				var controlPoints = [];
+
+				
 
 				var stats = initStats();
 
