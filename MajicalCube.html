@@ -91,9 +91,9 @@
 
 
 				var vertices = newVerticies();
-				/*var vertices2 = newVerticies();
+				var vertices2 = newVerticies();
 				vertices2[3] = new THREE.Vector3(9, 9, 9);
-				console.log("vertices:" + JSON.stringify(vertices));*/
+			//	console.log("vertices:" + JSON.stringify(vertices));
 
 
 				var groupSize = 8;
@@ -120,15 +120,29 @@
 				];
 
 				var geom = new THREE.Geometry();
-				/*geom.vertices = vertices2;
 
-				geom.faces = cfaces;
-				geom.computeFaceNormals();
-				console.log("geom:" + JSON.stringify(geom));*/
+				geom.vertices = vertices2;
+				//
+				 geom.faces = cfaces;
+				 geom.computeFaceNormals();
+				// console.log("geom:" + JSON.stringify(geom));
+
+
+
 				var cube = new THREE.Mesh(geom, new THREE.MeshLambertMaterial({color: 0xff0000}));
+
+				console.log("cube.children:" +  JSON.stringify(cube.children));
+
+
 				cube.position.z += 5;
 				scene.add(cube);
-
+				//cube.children.forEach(function (face) {
+					 cube.geometry.vertices = vertices;
+					 console.log("face vertices:" + JSON.stringify(cube.geometry.vertices));
+					 console.log("vertices:" + JSON.stringify(vertices));
+					 cube.geometry.verticesNeedUpdate = true;
+					 cube.geometry.computeFaceNormals();
+			//	});
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				render();
@@ -145,11 +159,7 @@
 						// 		// vertices.push(new THREE.Vector3(controlPoints[i].x, controlPoints[i].y, controlPoints[i].z));
 						// }
 
-						 cube.children.forEach(function (face) {
-						 		face.geometry.vertices = vertices;
-						 		face.geometry.verticesNeedUpdate = true;
-						 		face.geometry.computeFaceNormals();
-						 });
+
 
 						requestAnimationFrame(render);
 						renderer.render(scene, camera);
