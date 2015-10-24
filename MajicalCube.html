@@ -22,6 +22,40 @@
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 
+				var gui = new dat.GUI();
+
+				var controls = new function(){
+
+					this.clone = function(){
+						scene.remove(clonedCubeGroup);
+
+
+						var clonedCubeGeometry = cubeGroup.children[0].geometry.clone();
+
+						var materials = [
+								new THREE.MeshLambertMaterial({opacity: 0.6, color: 0xff2200, transparent: true}),
+								new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
+						];
+
+						var clonedCubeGroup = THREE.SceneUtils.createMultiMaterialObject(clonedCubeGeometry, materials);
+
+						clonedCubeGroup.children.forEach(function(cube){
+							cube.castShadow = true;
+						});
+
+						clonedCubeGroup.translateX(5);
+						clonedCubeGroup.translateZ(5);
+						scene.add(clonedCubeGroup);
+					}
+
+					this.lightIntensity = 1;
+
+				}
+
+				gui.add(controls, 'clone');
+				gui.add(controls, 'lightIntensity', 0, 14, 1);
+
+
 				var stats = initStats();
 
 				var scene = new THREE.Scene();
@@ -48,7 +82,7 @@
 				scene.add(plane);
 
 				var camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
-				camera.position.set(-10, 8, 8);
+				camera.position.set(-15, 17, 12);
 				camera.lookAt(new THREE.Vector3(4, 0, 0));
 				scene.add(camera);
 
@@ -117,18 +151,18 @@
 					new THREE.Face3(3 + groupSize * 2,6 + groupSize * 2,4 + groupSize * 2)
 				];
 
-				var geom = new THREE.Geometry();
+				var cubeGeometry = new THREE.Geometry();
 
-				geom.vertices = vertices;
-				geom.faces = faces;
-				geom.computeFaceNormals();
+				cubeGeometry.vertices = vertices;
+				cubeGeometry.faces = faces;
+				cubeGeometry.computeFaceNormals();
 
 				var materials = [
-						new THREE.MeshLambertMaterial({opacity: 0.6, color: 0x9c9c00, transparent: true}),
+						new THREE.MeshLambertMaterial({opacity: 0.6, color: 0x44ff44, transparent: true}),
 						new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
 				];
 
-				var cubeGroup = new THREE.SceneUtils.createMultiMaterialObject(geom, materials);
+				var cubeGroup = new THREE.SceneUtils.createMultiMaterialObject(cubeGeometry, materials);
 
 				cubeGroup.children.forEach(function (cube) {
 						cube.castShadow = true;
@@ -146,6 +180,8 @@
 
 				function render() {
 						stats.update();
+
+						spotLight.intensity = (controls.lightIntensity/2);
 
 						// var vertices = [];
 						// for (var i = 0; i < 8; i++) {
