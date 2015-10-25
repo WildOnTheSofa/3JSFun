@@ -27,7 +27,7 @@
 				var controls = new function(){
 
 					this.clone = function(){
-						scene.remove(clonedCubeGroup);
+						scene.remove(getElementByName("clonedCubeGroup"));
 
 
 						var clonedCubeGeometry = cubeGroup.children[0].geometry.clone();
@@ -38,6 +38,8 @@
 						];
 
 						var clonedCubeGroup = THREE.SceneUtils.createMultiMaterialObject(clonedCubeGeometry, materials);
+
+						clonedCubeGroup.name = "clonedCubeGroup";
 
 						clonedCubeGroup.children.forEach(function(cube){
 							cube.castShadow = true;
@@ -114,7 +116,7 @@
 
 				function newVertices(){
 					var array = [];
-					for(var x = 0; x < 3; x++){
+					for(var x = 0; x < 24; x++){
 						array.push(new THREE.Vector3(0, 0, 0));
 					}
 					return array;
@@ -186,14 +188,14 @@
 
 						vertices = [];
 						for( var i = 0; i < 3; i++){ //PROBLEM : INTFITE LOOP
-							for (var i2 = 0; i2 < 8; i++) {
-								vertices.push(updateVertex(controlPoints[i]));
+							for (var j = 0; j < 8; j++) {
+								vertices.push(updateVertex(controlPoints[j]));
 					 		}
-							//console.log("vertices: " + JSON.stringify(vertices));
+							console.log("vertices: " + JSON.stringify(vertices));
 						}
 
 						cubeGroup.children.forEach( function(cube) {
-							// cube.geometry.vertices = vertices;
+							cube.geometry.vertices = vertices;
 							cube.geometry.verticesNeedUpdate = true;
 							cube.geometry.computeFaceNormals();
 						});
