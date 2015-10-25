@@ -57,20 +57,68 @@
 							this.z = z;
 						}
 					}
+
+				}
+
+				var controlPoints = [];
+
+				for(var i = 0; i < 3; i++){
+        	controlPoints.push(addControl(3, 5, 3));
+        	controlPoints.push(addControl(3, 5, 0));
+        	controlPoints.push(addControl(3, 0, 3));
+        	controlPoints.push(addControl(3, 0, 0));
+        	controlPoints.push(addControl(0, 5, 0));
+        	controlPoints.push(addControl(0, 5, 3));
+        	controlPoints.push(addControl(0, 0, 0));
+        	controlPoints.push(addControl(0, 0, 3));
+				}
+
+				var controls = new function(){
+
+					this.clone = function(){
+						var materials = [
+								new THREE.MeshLambertMaterial({opacity: 0.6, color: 0xff44ff, transparent: true}),
+								new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
+						];
+
+						scene.remove(scene.getChildByName("clone"));
+
+						var clonedGeometry = cubeGroup.children[0].geometry.clone();
+
+
+						var clonedCubeGroup = THREE.SceneUtils.createMultiMaterialObject(clonedGeometry, materials);
+						clonedCubeGroup.children.forEach(function (e) {
+								e.castShadow = true
+						});
+
+						clonedCubeGroup.translateX(5);
+						clonedCubeGroup.translateZ(5);
+						clonedCubeGroup.name = "clone";
+						scene.add(clonedCubeGroup);
+					}
+
+					this.lightIntensity = 5;
+
+					this.addControl = function(x, y, z){
+						return new function(){
+							this.x = x;
+							this.y=y;
+							this.z = z;
+						}
+					}
 				}
 
 				gui.add(controls, 'clone');
 				gui.add(controls, 'lightIntensity', 0, 14, 1);
 
-				var controlPoints = [];
-        controlPoints.push(addControl(3, 5, 3));
-        controlPoints.push(addControl(3, 5, 0));
-        controlPoints.push(addControl(3, 0, 3));
-        controlPoints.push(addControl(3, 0, 0));
-        controlPoints.push(addControl(0, 5, 0));
-        controlPoints.push(addControl(0, 5, 3));
-        controlPoints.push(addControl(0, 0, 0));
-        controlPoints.push(addControl(0, 0, 3));
+				guiVertices = gui.addFolder('Coordinates of vertices');
+
+				for (var i = 0; i < 8; i++) {
+					folder = guiVertices.addFolder('Vertex ' + (i + 1));
+					folder.add(controlPoints[i], 'x', -10, 10);
+					folder.add(controlPoints[i], 'y', -10, 10);
+					folder.add(controlPoints[i], 'z', -10, 10);
+				}
 
 				var stats = initStats();
 
@@ -188,10 +236,12 @@
 						vertices = [];
 						for( var i = 0; i < 3; i++){ //PROBLEM : INTFITE LOOP
 							for (var j = 0; j < 8; j++) {
-								vertices.push(updateVertex(controlPoints[j]));
+								vertices.push(updateVertex(controlPoints[j + i]));
 					 		}
-							//console.log("vertices: " + JSON.stringify(vertices));
+
 						}
+
+						console.log("vertices: " + JSON.stringify(vertices));
 
 						cubeGroup.children.forEach( function(cube) {
 							cube.geometry.vertices = vertices;
