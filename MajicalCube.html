@@ -32,7 +32,7 @@
 								new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
 						];
 
-						scene.remove(scene.getChildByName("clone"));
+						scene.remove(scene.getObjectByName("clone"));
 
 						var clonedGeometry = cubeGroup.children[0].geometry.clone();
 
@@ -234,11 +234,11 @@
 						spotLight.intensity = (controls.lightIntensity/2);
 
 						vertices = [];
-						for( var i = 0; i < 3; i++){ //PROBLEM : INTFITE LOOP
-							for (var j = 0; j < 8; j++) {
-								vertices.push(updateVertex(controlPoints[j + i]));
-					 		}
-
+						for( var i = 0; i < 24; i++){
+								vertices.push(updateVertex(controlPoints[i]));
+								// if(i < 16){
+								// 	controlPoints[i + 8] = controlPoints[i];
+								// }
 						}
 
 						console.log("vertices: " + JSON.stringify(vertices));
