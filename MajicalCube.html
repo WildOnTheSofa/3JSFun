@@ -23,6 +23,7 @@
   				var rv = {};
   				for (var i = 0; i < arr.length; ++i){
     				rv[i] = arr[i];
+						console.log("Timed: " + JSON.stringify(rv));
 					}
   				return rv;
 				}
@@ -213,12 +214,12 @@
 				var object23 = {};
 
 				for (var i =0; i < faces.length; i++){
-					console.log("Rahamim lo yada hoo lo yada!");
 					guiColors.addFolder('Face ' + (i + 1));
 					for (var j=0; j<3; j++){
 						faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
-						object23 = toObject(faces[i].vertexColors[j]);
-						console.log(JSON.stringify(object23))
+						object23 = toObject(faces[i].vertexColors);
+						console.log(JSON.stringify(object23));
+						//console.log(JSON.stringify(faces[i].vertexColors[j]));
 					}
 				}
 				var cubeGeometry = new THREE.Geometry();
@@ -261,8 +262,6 @@
 									controlPoints[i + 8] = controlPoints[i];
 								}
 						}
-
-						console.log("vertices: " + JSON.stringify(vertices));
 
 						cubeGroup.children.forEach( function(cube) {
 							cube.geometry.vertices = vertices;
