@@ -19,6 +19,14 @@
 		<script type="text/javascript">
 			function init(){
 
+				function toObject(arr) {
+  				var rv = {};
+  				for (var i = 0; i < arr.length; ++i){
+    				rv[i] = arr[i];
+					}
+  				return rv;
+				}
+
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 
@@ -200,9 +208,22 @@
 					new THREE.Face3(3 + groupSize * 2,6 + groupSize * 2,4 + groupSize * 2)
 				];
 
+
 				for (var i =0; i < faces.length; i++){
 					for (var j=0; j<3; j++){
 						faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
+
+
+				guiColors = gui.addFolder('Faces');
+				var object23 = {};
+
+				for (var i =0; i < faces.length; i++){
+					console.log("Rahamim lo yada hoo lo yada!");
+					guiColors.addFolder('Face ' + (i + 1));
+					for (var j=0; j<3; j++){
+						faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
+						object23 = toObject(faces[i].vertexColors[j]);
+						console.log(JSON.stringify(object23))
 					}
 				}
 				var cubeGeometry = new THREE.Geometry();
@@ -215,7 +236,7 @@
 
 
 				var materials = [
-						new THREE.MeshLambertMaterial({opacity: 0.6,  transparent: true}), 
+						new THREE.MeshLambertMaterial({opacity: 0.6,  transparent: true}),
 						new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
 				];
 				materials[0].vertexColors = THREE.VertexColors;
