@@ -23,7 +23,7 @@
   				var rv = {};
   				for (var i = 0; i < arr.length; ++i){
     				rv[i] = arr[i];
-						console.log("Timed: " + JSON.stringify(rv));
+					//	console.log("Timed: " + JSON.stringify(rv));
 					}
   				return rv;
 				}
@@ -217,10 +217,21 @@
 					guiColors.addFolder('Face ' + (i + 1));
 					for (var j=0; j<3; j++){
 						faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
+
+
+						console.log ("colors:" + faces[i].vertexColors.length);
 						object23 = toObject(faces[i].vertexColors);
-						console.log(JSON.stringify(object23));
+
+						var faceColor = faces[i].vertexColors[j];
+
+						//guiColors.addColor(faceColor, 'setRGB(1,1,1)');
+						// guiColors.addColor(faceColor, 'g');
+						// guiColors.addColor(faceColor, 'b');
+						//console.log("vertex colors:" + JSON.stringify(faces[i].vertexColors));
+						//console.log("object23:" + JSON.stringify(object23));
 						//console.log(JSON.stringify(faces[i].vertexColors[j]));
 					}
+
 				}
 				var cubeGeometry = new THREE.Geometry();
 
