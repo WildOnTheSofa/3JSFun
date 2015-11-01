@@ -213,11 +213,11 @@
 				guiColors = gui.addFolder('Faces');
 				var object23 = {};
 
-				for (var i =0; i < faces.length; i++){
+				for (var i =0; i < (faces.length / 2); i++){
 					var faceFolder = guiColors.addFolder('Face ' + (i + 1));
 
-					// for (var k=0; k < 4; k++){
-					// 	faceFolder.add("vertex" + k, k);
+				  for (var k=0; k < 4; k++){
+						var vertexFolder = faceFolder.addFolder("Vertex " + k);
 						for (var j=0; j<3; j++){
 							faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
 							var col;
@@ -226,10 +226,11 @@
 								case 1: col = 'g'; break;
 								case 2: col = 'b';
 							}
-							faceFolder.add(faces[i].vertexColors[j], col);
+
+							vertexFolder.add(faces[i].vertexColors[j], col, 0, 1);
 							//console.log ("colors:" + faces[i].vertexColors.length);
 						}
-					// }
+					}
 
 				}
 				var cubeGeometry = new THREE.Geometry();
@@ -266,6 +267,7 @@
 						spotLight.intensity = (controls.lightIntensity/2);
 
 						vertices = [];
+						console.log(faces[0].vertexColors[0].r);
 						for( var i = 0; i < 24; i++){
 								vertices.push(updateVertex(controlPoints[i]));
 								if(i < 16){
