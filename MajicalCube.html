@@ -214,23 +214,22 @@
 				var object23 = {};
 
 				for (var i =0; i < faces.length; i++){
-					guiColors.addFolder('Face ' + (i + 1));
-					for (var j=0; j<3; j++){
-						faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
+					var faceFolder = guiColors.addFolder('Face ' + (i + 1));
 
-
-						console.log ("colors:" + faces[i].vertexColors.length);
-						object23 = toObject(faces[i].vertexColors);
-
-						//faces[i].vertexColors[j];
-
-						console.log("Rahamim Lo Yada Hoo Lo Yada");
-
-						guiColors.addFolder(object23, 'j'); //.addColor(faces[i].vertexColors[j], 'r');
-						//console.log("vertex colors:" + JSON.stringify(faces[i].vertexColors));
-						//console.log("object23:" + JSON.stringify(object23));
-						//console.log(JSON.stringify(faces[i].vertexColors[j]));
-					}
+					// for (var k=0; k < 4; k++){
+					// 	faceFolder.add("vertex" + k, k);
+						for (var j=0; j<3; j++){
+							faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
+							var col;
+							switch (j){
+								case 0: col = 'r'; break;
+								case 1: col = 'g'; break;
+								case 2: col = 'b';
+							}
+							faceFolder.add(faces[i].vertexColors[j], col);
+							//console.log ("colors:" + faces[i].vertexColors.length);
+						}
+					// }
 
 				}
 				var cubeGeometry = new THREE.Geometry();
