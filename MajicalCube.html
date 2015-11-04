@@ -19,15 +19,6 @@
 		<script type="text/javascript">
 			function init(){
 
-				function toObject(arr) {
-  				var rv = {};
-  				for (var i = 0; i < arr.length; ++i){
-    				rv[i] = arr[i];
-					//	console.log("Timed: " + JSON.stringify(rv));
-					}
-  				return rv;
-				}
-
 				var width = window.innerWidth;
 				var height = window.innerHeight;
 
@@ -90,7 +81,7 @@
 								new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
 						];
 
-						scene.remove(scene.getChildByName("clone"));
+						scene.remove(scene.getObjectByName("clone"));
 
 						var clonedGeometry = cubeGroup.children[0].geometry.clone();
 
@@ -151,7 +142,7 @@
 				var plane = new THREE.Mesh(planeGeometry, planeMaterial);
 			  plane.receiveShadow = true;
 			  plane.position.set(0, 0, 0);
-				  plane.rotation.x = -0.5 * Math.PI;
+				plane.rotation.x = -0.5 * Math.PI;
 				scene.add(plane);
 
 				var camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
@@ -213,10 +204,26 @@
 				guiColors = gui.addFolder('Faces');
 				var object23 = {};
 
+
+
+				// for (var i =0; i < (faces.length / 2); i++){
+				// 	var faceFolder = guiColors.addFolder('Face ' + (i + 1));
+				//	faceFolder.name = "faceFolder " + i;
+
+				//  for (var k=0; k < 4; k++){
+				//		vertexFolder.name = "vertexFolder " + i;
+				// 		var vertexFolder = faceFolder.addFolder("Vertex " + k);
+				// 	}
+				//
+				// }
+
 				for (var i =0; i < (faces.length / 2); i++){
 					var faceFolder = guiColors.addFolder('Face ' + (i + 1));
+					faceFolder.name = "i";
+					//guiColors.getObjectByName("i");
 
-				  for (var k=0; k < 4; k++){
+
+					for (var k=0; k < 4; k++){
 						var vertexFolder = faceFolder.addFolder("Vertex " + k);
 						for (var j=0; j<3; j++){
 							faces[i].vertexColors[j] = new THREE.Color( 0x44ff44 );
@@ -233,6 +240,9 @@
 					}
 
 				}
+				var s = JSON.stringify(guiColors);
+				console.log(guiColors);
+
 				var cubeGeometry = new THREE.Geometry();
 
 				cubeGeometry.vertices = vertices;
@@ -267,7 +277,6 @@
 						spotLight.intensity = (controls.lightIntensity/2);
 
 						vertices = [];
-						console.log(faces[0].vertexColors[0].r);
 						for( var i = 0; i < 24; i++){
 								vertices.push(updateVertex(controlPoints[i]));
 								if(i < 16){
@@ -280,6 +289,8 @@
 							cube.geometry.verticesNeedUpdate = true;
 							cube.geometry.computeFaceNormals();
 						});
+
+						console.log(JSON.stringify({}));
 
 						requestAnimationFrame(render);
 						renderer.render(scene, camera);
