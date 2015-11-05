@@ -16,6 +16,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js"> </script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.js"></script>
+		<script src="https://raw.githubusercontent.com/douglascrockford/JSON-js/master/cycle.js"></script>
 		<script type="text/javascript">
 			function init(){
 
@@ -238,10 +239,10 @@
 							//console.log ("colors:" + faces[i].vertexColors.length);
 						}
 					}
-
+					if (i ==0) console.log(JSON.stringify(JSON.decycle(guiColors)));
 				}
-				var s = JSON.stringify(guiColors);
-				console.log(guiColors);
+				
+
 
 				var cubeGeometry = new THREE.Geometry();
 
