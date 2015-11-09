@@ -74,7 +74,43 @@
         	controlPoints.push(addControl(0, 0, 3));
 				}
 
+				function animantionInterval(num, bool){
+					var n = 0.05;
+					if(bool == false){
+						n = -0.05;
+					}
+
+					var lightInt = num += 0.05;
+
+					return lightInt;
+
+				}
+
 				var controls = new function(){
+
+					this.animation = function(){
+						var part_2 = false;
+
+						var sun = window.setTimeout({
+								/*console.log(" loops past");
+								var brightness = 0; // animantionInterval(contorls.lightIntensity, true);
+								if(brightness != 0){
+									contorls.lightIntensity = brightness;
+								}
+
+								else{
+									window.clearTimeout(sun);
+								}
+
+								if(contorls.lightIntensity == 14){
+									part_2 = true;
+								}*/
+						}, controls.animationSpeed);
+
+					}
+
+
+					this.animationSpeed = 1000;
 
 					this.clone = function(){
 						var materials = [
@@ -241,7 +277,7 @@
 					}
 					if (i ==0) console.log(JSON.stringify(JSON.decycle(guiColors)));
 				}
-				
+
 
 
 				var cubeGeometry = new THREE.Geometry();
@@ -268,6 +304,9 @@
 				scene.add(cubeGroup);
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
+
+				var animStage = 0;
+
 				render();
 
 
@@ -275,7 +314,11 @@
 				function render() {
 						stats.update();
 
-						spotLight.intensity = (controls.lightIntensity/2);
+						//if(false == true){}
+
+						else{
+							spotLight.intensity = (controls.lightIntensity/2);
+						}
 
 						vertices = [];
 						for( var i = 0; i < 24; i++){
