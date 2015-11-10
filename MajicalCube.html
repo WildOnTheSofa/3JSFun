@@ -87,25 +87,24 @@
 				}
 
 				var controls = new function(){
-
+					console.log("in controls");
 					this.animation = function(){
+						console.log("in controls animation");
 						var part_2 = false;
 
-						var sun = window.setTimeout({
-								/*console.log(" loops past");
-								var brightness = 0; // animantionInterval(contorls.lightIntensity, true);
+						var sun = window.setInterval(function(){
+								console.log("in timeout:" + controls.lightIntensity);
+								var brightness = animantionInterval(controls.lightIntensity, true);
 								if(brightness != 0){
-									contorls.lightIntensity = brightness;
+									controls.lightIntensity = brightness;
+								} else{
+									window.clearInterval(sun);
 								}
 
-								else{
-									window.clearTimeout(sun);
-								}
-
-								if(contorls.lightIntensity == 14){
+								if(controls.lightIntensity == 14){
 									part_2 = true;
-								}*/
-						}, controls.animationSpeed);
+								}
+						}, 200);
 
 					}
 
@@ -146,7 +145,7 @@
 				}
 
 				gui.add(controls, 'clone');
-				gui.add(controls, 'lightIntensity', 0, 14, 1);
+				gui.add(controls, 'lightIntensity', 0, 14, 1).listen();
 
 				guiVertices = gui.addFolder('Coordinates of vertices');
 
@@ -211,7 +210,7 @@
 
 
 				var vertices = newVertices();
-				console.log("vertices:" + JSON.stringify(vertices));
+				//console.log("vertices:" + JSON.stringify(vertices));
 
 
 				var groupSize = 8;
@@ -275,7 +274,7 @@
 							//console.log ("colors:" + faces[i].vertexColors.length);
 						}
 					}
-					if (i ==0) console.log(JSON.stringify(JSON.decycle(guiColors)));
+					//if (i ==0) console.log(JSON.stringify(JSON.decycle(guiColors)));
 				}
 
 
@@ -307,6 +306,8 @@
 
 				var animStage = 0;
 
+				controls.animation();
+
 				render();
 
 
@@ -316,7 +317,7 @@
 
 						//if(false == true){}
 
-						else{
+						{
 							spotLight.intensity = (controls.lightIntensity/2);
 						}
 
@@ -334,7 +335,7 @@
 							cube.geometry.computeFaceNormals();
 						});
 
-						console.log(JSON.stringify({}));
+
 
 						requestAnimationFrame(render);
 						renderer.render(scene, camera);
