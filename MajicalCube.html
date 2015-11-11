@@ -74,44 +74,48 @@
         	controlPoints.push(addControl(0, 0, 3));
 				}
 
-				function animantionInterval(num, bool){
-					var n = 0.05;
-					if(bool == false){
-						n = -0.05;
-					}
 
-					var lightInt = num += 0.05;
-
-					return lightInt;
-
-				}
 
 				var controls = new function(){
-					console.log("in controls");
-					this.animation = function(){
-						console.log("in controls animation");
-						var part_2 = false;
+						this.clickable = true;
+						this.animantionInterval= function(num, bool){
+							var n = 0.05;
+							if(bool == false){
+								n = -0.05;
+							}
 
-						var sun = window.setInterval(function(){
-								console.log("in timeout:" + controls.lightIntensity);
-								var brightness = animantionInterval(controls.lightIntensity, true);
-								if(brightness != 0){
-									controls.lightIntensity = brightness;
-								} else{
-									window.clearInterval(sun);
-								}
+							var lightInt = num += n;
 
-								if(controls.lightIntensity == 14){
-									part_2 = true;
-								}
-						}, 200);
+							return lightInt;
 
-					}
+						}
+						this.animation = function(){
+							var part_1 = true;
+
+							var sun = window.setInterval(function(){
+								if(controls.clickable == true){
+										controls.clickable = false;
+										var brightness = controls.animantionInterval(controls.lightIntensity, part_1);
+
+										if(brightness >= 0){
+											controls.lightIntensity = brightness;
+										} else{
+												controls.clickable = true;
+												window.clearInterval(sun);
+										}
 
 
-					this.animationSpeed = 1000;
+											if(controls.lightIntensity >= 14){
+												part_1 = false;
+											}
+							}
+					}, 1000 - controls.animationSpeed);
+				}
 
-					this.clone = function(){
+
+				this.animationSpeed = 1;
+
+				this.clone = function(){
 						var materials = [
 								new THREE.MeshLambertMaterial({opacity: 0.6, color: 0xff44ff, transparent: true}),
 								new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true})
@@ -144,8 +148,11 @@
 					}
 				}
 
-				gui.add(controls, 'clone');
-				gui.add(controls, 'lightIntensity', 0, 14, 1).listen();
+				otherControls = gui.addFolder("Other");
+				otherControls.add(controls, 'clone');
+				otherControls.add(controls, 'lightIntensity', 0, 14, 1).listen();
+				otherControls.add(controls, 'animation');
+				otherControls.add(controls, 'animationSpeed' ,1, 1000);
 
 				guiVertices = gui.addFolder('Coordinates of vertices');
 
@@ -304,10 +311,6 @@
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 
-				var animStage = 0;
-
-				controls.animation();
-
 				render();
 
 
@@ -315,11 +318,7 @@
 				function render() {
 						stats.update();
 
-						//if(false == true){}
-
-						{
-							spotLight.intensity = (controls.lightIntensity/2);
-						}
+						spotLight.intensity = controls.lightIntensity;
 
 						vertices = [];
 						for( var i = 0; i < 24; i++){
