@@ -33,11 +33,17 @@
 				renderer.shadowMapEnabled = true;
 
 				var controls = function(){
-						//this.position = function()
+						//this.position = function(){
+							this.x = 0;
+							this.y = 4;
+							this.z = 0;
+						//}
 
 
 
 				};
+
+				gui.add(controls, 'x', 0, 10);
 
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
@@ -60,10 +66,9 @@
 				camera.lookAt(new THREE.Vector3(4, 0, 0));
 				scene.add(camera);
 
-				var material = new THREE.MeshLambertMaterial({color: 0x44ff44});
-				var geom = new THREE.BoxGeometry(5, 8, 3);
-				var cube = new THREE.Mesh(geom, material);
-				cube.position.y = 4;
+				var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x44ff44});
+				var cubeGeom = new THREE.BoxGeometry(5, 8, 3);
+				var cube = new THREE.Mesh(cubeGeom, cubeMaterial);
 				cube.castShadow = true;
 				scene.add(cube);
 
