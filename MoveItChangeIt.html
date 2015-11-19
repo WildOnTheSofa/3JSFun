@@ -32,6 +32,13 @@
 				renderer.setSize(width,height);
 				renderer.shadowMapEnabled = true;
 
+				var controls = function(){
+						//this.position = function()
+
+
+
+				};
+
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
 
@@ -60,6 +67,7 @@
 				cube.castShadow = true;
 				scene.add(cube);
 
+				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				render();
 
 				function render() {
