@@ -32,18 +32,24 @@
 				renderer.setSize(width,height);
 				renderer.shadowMapEnabled = true;
 
-				var controls = function(){
-						//this.position = function(){
+				var controls = new function(){
+						this.position = new function(){
 							this.x = 0;
 							this.y = 4;
 							this.z = 0;
-						//}
+						}
 
 
 
 				};
 
-				gui.add(controls, 'x', 0, 10);
+				guiPosition = gui.addFolder("Position");
+
+				positionX = guiPosition.add(controls.position, 'x', -20, 20).listen();
+				positionY = guiPosition.add(controls.position, 'y', -20, 20).listen();
+				positionZ = guiPosition.add(controls.position, 'z', -20, 20).listen();
+
+
 
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
@@ -71,6 +77,19 @@
 				var cube = new THREE.Mesh(cubeGeom, cubeMaterial);
 				cube.castShadow = true;
 				scene.add(cube);
+
+				positionX.onChange(function (value) {
+						cube.position.x = controls.position.x;
+				});
+
+				positionY.onChange(function (value) {
+						cube.position.y = controls.position.y;
+				});
+
+				positionZ.onChange(function (value) {
+						cube.position.z = controls.position.z;
+				});
+
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				render();
