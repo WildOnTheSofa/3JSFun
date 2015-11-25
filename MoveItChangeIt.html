@@ -39,7 +39,17 @@
 							this.z = 0;
 						}
 
+						this.rotation = new function(){
+							this.x = 0;
+							this.y = 0;
+							this.z = 0;
+						}
 
+						this.scale = new function(){
+							this.x = 5;
+							this.y = 5;
+							this.z = 5;
+						}
 
 				};
 
@@ -49,7 +59,17 @@
 				positionY = guiPosition.add(controls.position, 'y', -20, 20).listen();
 				positionZ = guiPosition.add(controls.position, 'z', -20, 20).listen();
 
+				guiRotation = gui.addFolder("Rotation");
 
+				rotationX = guiRotation.add(controls.rotation, 'x', 0 , 3.5).listen();
+				rotationY = guiRotation.add(controls.rotation, 'y', 0 , 3.5).listen();
+				rotationZ = guiRotation.add(controls.rotation, 'z', 0 , 3.5).listen();
+
+				guiScale = gui.addFolder("Size");
+
+				scaleX = guiScale.add(controls.scale, 'x', 0, 15).listen();
+				scaleY = guiScale.add(controls.scale, 'y', 0, 15).listen();
+				scaleZ = guiScale.add(controls.scale, 'z', 0, 15).listen();
 
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
@@ -90,11 +110,33 @@
 						cube.position.z = controls.position.z;
 				});
 
+				rotationX.onChange(function (value) {
+					if(controls.rotation.x >= 3.5){
+						controls.rotation.x = 0;
+					}
+					cube.rotation.x = controls.rotation.x;
+				});
+
+				rotationY.onChange(function (value) {
+					if(controls.rotation.y >= 3.5){
+						controls.rotation.y = 0;
+					}
+					cube.rotation.y = controls.rotation.y;
+				});
+
+				rotationZ.onChange(function (value) {
+					if(controls.rotation.z >= 3.5){
+						controls.rotation.z = 0;
+					}
+					cube.rotation.z = controls.rotation.z;
+				});
+
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				render();
 
 				function render() {
+						cube.scale.set(controls.scale.scaleX,controls.scale.scaleY, controls.scale.scaleZ);
 						stats.update();
 
 						requestAnimationFrame(render);
