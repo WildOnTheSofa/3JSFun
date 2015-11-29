@@ -98,7 +98,12 @@
 				cube.castShadow = true;
 				scene.add(cube);
 
+				function update(use ,axis){
+						
+				}
+
 				positionX.onChange(function (value) {
+						console.log("blah" + this.name);
 						cube.position.x = controls.position.x;
 				});
 
@@ -136,7 +141,8 @@
 				render();
 
 				function render() {
-						cube.scale.set(controls.scale.scaleX,controls.scale.scaleY, controls.scale.scaleZ);
+						// console.log("blah" + controls.scale.scaleX);
+						// cube.scale.set(controls.scale.scaleX,controls.scale.scaleY, controls.scale.scaleZ);
 						stats.update();
 
 						requestAnimationFrame(render);
