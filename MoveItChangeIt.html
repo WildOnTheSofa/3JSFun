@@ -60,7 +60,9 @@
 								cube.translateX(controls.movement.x);
 								cube.translateY(controls.movement.y);
 								cube.translateZ(controls.movement.z);
-								
+								controls.position.x = cube.position.x;
+								controls.position.y = cube.position.y;
+								controls.position.z = cube.position.z;
 							}
 						}
 
