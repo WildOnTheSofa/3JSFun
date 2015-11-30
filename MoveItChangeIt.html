@@ -98,42 +98,21 @@
 				cube.castShadow = true;
 				scene.add(cube);
 
-				function update(item){
-						eval("cube." + item + " = " + "controls." + item);
+				function update(updated ,item){
+						updated.onChange(function(){
+							eval("cube." + item + " = " + "controls." + item);
+						});
 				}
 
-				positionX.onChange(function (value) {
-						update("position.x");
-				});
-
-				positionY.onChange(function (value) {
-						cube.position.y = controls.position.y;
-				});
-
-				positionZ.onChange(function (value) {
-						cube.position.z = controls.position.z;
-				});
-
-				rotationX.onChange(function (value) {
-					if(controls.rotation.x >= 3.5){
-						controls.rotation.x = 0;
-					}
-					cube.rotation.x = controls.rotation.x;
-				});
-
-				rotationY.onChange(function (value) {
-					if(controls.rotation.y >= 3.5){
-						controls.rotation.y = 0;
-					}
-					cube.rotation.y = controls.rotation.y;
-				});
-
-				rotationZ.onChange(function (value) {
-					if(controls.rotation.z >= 3.5){
-						controls.rotation.z = 0;
-					}
-					cube.rotation.z = controls.rotation.z;
-				});
+				update(positionX, "position.x");
+				update(positionY, "position.y");
+				update(positionZ, "position.z");
+				update(rotationX, "rotation.x");
+				update(rotationY, "rotation.y");
+				update(rotationZ, "rotation.z");
+				update(scaleX, "scale.x");
+				update(scaleY, "scale.y");
+				update(scaleZ, "scale.z");
 
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
