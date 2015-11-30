@@ -98,13 +98,12 @@
 				cube.castShadow = true;
 				scene.add(cube);
 
-				function update(use ,axis){
-						
+				function update(item){
+						eval("cube." + item + " = " + "controls." + item);
 				}
 
 				positionX.onChange(function (value) {
-						console.log("blah" + this.name);
-						cube.position.x = controls.position.x;
+						update("position.x");
 				});
 
 				positionY.onChange(function (value) {
