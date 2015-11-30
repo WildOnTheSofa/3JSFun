@@ -51,6 +51,19 @@
 							this.z = 5;
 						}
 
+						this.movement = new function(){
+							this.x = 0;
+							this.y = 0;
+							this.z = 0;
+
+							this.translate = function(){
+								cube.translateX(controls.movement.x);
+								cube.translateY(controls.movement.y);
+								cube.translateZ(controls.movement.z);
+								
+							}
+						}
+
 				};
 
 				guiPosition = gui.addFolder("Position");
@@ -70,6 +83,13 @@
 				scaleX = guiScale.add(controls.scale, 'x', 0, 15).listen();
 				scaleY = guiScale.add(controls.scale, 'y', 0, 15).listen();
 				scaleZ = guiScale.add(controls.scale, 'z', 0, 15).listen();
+
+				guiTranslation = gui.addFolder("Translate");
+
+				guiTranslation.add(controls.movement, 'x', -5, 5).listen();
+				guiTranslation.add(controls.movement, 'y', -5, 5).listen();
+				guiTranslation.add(controls.movement, 'z', -5, 5).listen();
+				guiTranslation.add(controls.movement, 'translate');
 
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
@@ -119,8 +139,6 @@
 				render();
 
 				function render() {
-						// console.log("blah" + controls.scale.scaleX);
-						// cube.scale.set(controls.scale.scaleX,controls.scale.scaleY, controls.scale.scaleZ);
 						stats.update();
 
 						requestAnimationFrame(render);
