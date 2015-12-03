@@ -30,6 +30,11 @@
 					this.bouncingSpeed = 50;
 					this.jumpingSpeed = 50;
 				}
+
+				this.ambientLight = new function(){
+					this.color = 0;
+					this.intensity = 0;
+				}
 			}
 
 			function init(){
@@ -40,7 +45,7 @@
 				var stats = initStats();
 				var gui = new dat.GUI();
 				var width = window.innerWidth;
-				var height = window.innerHeight;
+				var height = window.innerHexffffffight;
 
 				scene = new THREE.Scene();
 				camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
@@ -110,7 +115,7 @@
 				// pointLight.position.z = 25;
 				// scene.add(pointLight);
 
-				var ambientLight = new THREE.AmbientLight(0xffffff);
+				var ambientLight = new THREE.AmbientLight(0);
 				scene.add(ambientLight);
 
 				guiAnimations = gui.addFolder("animation");
@@ -119,12 +124,34 @@
 				guiAnimations.add(controls.animation, 'bouncingSpeed', 0, 100, 1);
 				guiAnimations.add(controls.animation, 'jumpingSpeed', 0, 100, 1);
 
+				guiLights = gui.addFolder("lights");
+
+				guiAmbient = guiLights.addFolder("ambient");
+
+				ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
+				ambientColor = guiAmbient.addColor(controls.ambientLight, 'color').listen();
+
+
+
+				ambientColor.onChange(function (){
+					ambientLight.color = controls.ambientLight.color;
+				});
+
+				/*function update(updated ,item){
+						updated.onChange(function(){
+							eval("cube." + item + " = " + "controls." + item);
+						});
+				}*/
+
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
 
 
 				function renderScene(){
 					stats.update();
+
+					ambientLight.color = controls.ambientLight.color;
+
 
 					stepBounce += controls.animation.bouncingSpeed/1000;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
