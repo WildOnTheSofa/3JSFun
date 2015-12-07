@@ -25,10 +25,16 @@
 			var scene,camera,renderer;
 
 			var controls = new function() {
-				this.rotationSpeed = 50;
-				this.bouncingSpeed = 50;
-				this.jumpingSpeed = 50;
-				this.lightIntensity = 2;
+				this.animation = new function(){
+					this.rotationSpeed = 50;
+					this.bouncingSpeed = 50;
+					this.jumpingSpeed = 50;
+				}
+
+				this.ambientLight = new function(){
+					this.color = 0;
+					this.intensity = 0;
+				}
 			}
 
 			function init(){
@@ -39,7 +45,7 @@
 				var stats = initStats();
 				var gui = new dat.GUI();
 				var width = window.innerWidth;
-				var height = window.innerHeight;
+				var height = window.innerHexffffffight;
 
 				scene = new THREE.Scene();
 				camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 1000);
@@ -53,25 +59,15 @@
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
 
-				var planeGeometry = new THREE.PlaneGeometry(90,20);
+				var planeGeometry = new THREE.PlaneGeometry(70,20);
 				var planeMaterial = new THREE.MeshLambertMaterial({color: 0xcccccc});
 				var plane = new THREE.Mesh(planeGeometry,planeMaterial);
 				plane.receiveShadow= true;
 				plane.rotation.x = -0.5 * Math.PI;
-				plane.position.x = 15;
+				plane.position.x = 5;
 				plane.position.y = 0;
 				plane.position.z = 0;
 				scene.add(plane);
-
-				var plane2Geometry = new THREE.PlaneGeometry(90,20);
-				var plane2Material = new THREE.MeshLambertMaterial({color: 0xcccccc});
-				var plane2 = new THREE.Mesh(planeGeometry,planeMaterial);
-				plane2.receiveShadow= true;
-				plane2.rotation.x = -0.5 * Math.PI;
-				plane2.position.x = 15;
-				plane2.position.y = 17.6;
-				plane2.position.z = -5;
-				scene.add(plane2);
 
 
 			 	var cubeGeometry = new THREE.BoxGeometry(6,6,6);
@@ -102,40 +98,68 @@
 				cylinder.position.z=0;
 				scene.add(cylinder);
 
-				camera.position.x=0;
+				camera.position.x=35;
 				camera.position.y=35;
-				camera.position.z=40;
+				camera.position.z=60;
 				camera.lookAt(scene.position);
 
-				var spotLight = new THREE.SpotLight(0xffffff);
-				spotLight.position.x = -40;
-				spotLight.position.y = 60;
-				spotLight.position.z = -10;
-				spotLight.castShadow = true;
-				scene.add(spotLight);
+				// var spotLight = new THREE.SpotLight(0);
+				// spotLight.position.y = 50;
+				// spotLight.position.z = 10;
+				// spotLight.castShadow = true;
+				// scene.add(spotLight);
+				//
+				// var pointLight = new THREE.PointLight(0);
+				// pointLight.position.x = 25;
+				// pointLight.position.y = 25;
+				// pointLight.position.z = 25;
+				// scene.add(pointLight);
+
+				var ambientLight = new THREE.AmbientLight(0);
+				scene.add(ambientLight);
+
+				guiAnimations = gui.addFolder("animation");
+
+				guiAnimations.add(controls.animation, 'rotationSpeed', 0, 100, 1);
+				guiAnimations.add(controls.animation, 'bouncingSpeed', 0, 100, 1);
+				guiAnimations.add(controls.animation, 'jumpingSpeed', 0, 100, 1);
+
+				guiLights = gui.addFolder("lights");
+
+				guiAmbient = guiLights.addFolder("ambient");
+
+				ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
+				ambientColor = guiAmbient.addColor(controls.ambientLight, 'color').listen();
+
+
+
+				ambientColor.onChange(function (){
+					ambientLight.color = controls.ambientLight.color;
+				});
+
+				/*function update(updated ,item){
+						updated.onChange(function(){
+							eval("cube." + item + " = " + "controls." + item);
+						});
+				}*/
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
 
 
-				gui.add(controls, 'rotationSpeed', 0, 100, 1);
-				gui.add(controls, 'bouncingSpeed', 0, 100, 1);
-				gui.add(controls, 'jumpingSpeed', 0, 100, 1);
-				gui.add(controls, 'lightIntensity', 0, 10, 1);
-
-
 				function renderScene(){
 					stats.update();
 
-					spotLight.intensity = controls.lightIntensity;
+					ambientLight.color = controls.ambientLight.color;
 
-					stepBounce += controls.bouncingSpeed/1000;
+
+					stepBounce += controls.animation.bouncingSpeed/1000;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
 					sphere.position.y = 2  + (10 * Math.abs(Math.sin(stepBounce)));
 
-					cube.rotation.y += (controls.rotationSpeed * 1.33 )/1000;
+					cube.rotation.y += (controls.animation.rotationSpeed * 1.33 )/1000;
 
-					stepJump += controls.jumpingSpeed/1000;
+					stepJump += controls.animation.jumpingSpeed/1000;
 					cylinder.position.y = 2 + (10 * Math.abs(Math.sin(stepJump)));
 
 					requestAnimationFrame(renderScene);
