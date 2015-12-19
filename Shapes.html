@@ -132,14 +132,14 @@
 
 				guiAmbient = guiLights.addFolder("ambient");
 
-			//	ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
+				//ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
 				ambientColor = guiAmbient.addColor(controls.ambientLight, 'color').listen();
 
 
 
-				// ambientColor.onChange(function (){
-				// 	ambientLight.color = controls.ambientLight.color;
-				// });
+				ambientColor.onChange(function (){
+				 	ambientLight.color = controls.ambientLight.color;
+				});
 				//
 				// function update(updated ,item){
 				// 		updated.onChange(function(){
@@ -153,11 +153,6 @@
 
 				function renderScene(){
 					stats.update();
-
-					if (ambientLight.color != controls.ambientLight.color){
-						console.log("light:" + JSON.stringify(ambientLight.color) + " control:" + controls.ambientLight.color);
-					  ambientLight.color.set(new THREE.Color (controls.ambientLight.color));
-					}
 
 					//ambientLight.intensity = controls.ambientLight.intensity;
 
