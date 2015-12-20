@@ -34,6 +34,7 @@
 				this.ambientLight = new function(){
 					this.color = 0;
 					this.intensity = 0;
+					this.ambientCube = 0xe3e300;
 				}
 			}
 
@@ -78,6 +79,7 @@
 			 	cube.position.x = 0;
 			 	cube.position.y = 3;
 				scene.add(cube);
+
 
 			 	var sphereGeometry = new THREE.SphereGeometry(4,20,20);
 			 	var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xcc6633, ambient: 0xcc6633});
@@ -132,20 +134,19 @@
 
 				guiAmbient = guiLights.addFolder("ambient");
 
+				cubeAmbient = guiAmbient.addColor(controls.ambientLight, 'ambientCube').listen();
 				//ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
 				ambientColor = guiAmbient.addColor(controls.ambientLight, 'color').listen();
 
-
-
 				ambientColor.onChange(function (){
-				 	ambientLight.color = controls.ambientLight.color;
+					ambientLight.color.set(new THREE.Color (controls.ambientLight.color));
 				});
-				//
-				// function update(updated ,item){
-				// 		updated.onChange(function(){
-				// 			eval("cube." + item + " = " + "controls." + item);
-				// 		});
-				// }
+				// ambientIntensity.onChange(function (){
+				// 	console.log("before:" + ambientLight.intensity);
+				// 	ambientLight.intensity = controls.ambientLight.intensity;
+				// 	console.log("after:" + ambientLight.intensity);
+				// });
+
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
@@ -153,6 +154,7 @@
 
 				function renderScene(){
 					stats.update();
+					cube.material.ambient.set(controls.ambientLight.cubeAmbient);
 
 					//ambientLight.intensity = controls.ambientLight.intensity;
 
