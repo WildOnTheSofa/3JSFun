@@ -141,6 +141,13 @@
 				ambientColor.onChange(function (){
 					ambientLight.color.set(new THREE.Color (controls.ambientLight.color));
 				});
+
+				cubeAmbient.onChange(function (){
+					console.log("cubeAmbient" + controls.ambientLight.ambientCube);
+					console.log("before:" + JSON.stringify(cube.material.ambient));
+					cube.material.ambient.set(new THREE.Color (controls.ambientLight.ambientCube));
+					console.log("after:" + JSON.stringify(cube.material.ambient));
+				});
 				// ambientIntensity.onChange(function (){
 				// 	console.log("before:" + ambientLight.intensity);
 				// 	ambientLight.intensity = controls.ambientLight.intensity;
@@ -154,7 +161,7 @@
 
 				function renderScene(){
 					stats.update();
-					cube.material.ambient.set(controls.ambientLight.cubeAmbient);
+					//cube.material.ambient.set(controls.ambientLight.cubeAmbient);
 
 					//ambientLight.intensity = controls.ambientLight.intensity;
 
