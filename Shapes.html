@@ -32,17 +32,17 @@
 				}
 
 				this.ambientLight = new function(){
-					this.color = 0;
+					this.color = 0xffffff;
 					this.ambientCube = 0xe3e300;
 					this.ambientSphere = 0xcc6633;
 					this.ambientCylinder = 0x319057;
-					this.visible = true;
+					this.visible = false;
 				}
 
 				this.pointLight = new function() {
-					this.intensity = 0;
+					this.intensity = 5;
 					this.visible = true;
-					this.color = 0x000000;
+					this.color = 0xffffff;
 				}
 
 			}
@@ -125,9 +125,11 @@
 				pointLight.position.x = 35;
 				pointLight.position.y = 35;
 				pointLight.position.z = 60;
+			//	pointLight.visible = false; // BUG in ThreeJS - doesnt like default of false ???
 				scene.add(pointLight);
 
 				var ambientLight = new THREE.AmbientLight(0x777777);
+				ambientLight.visible = false;
 				scene.add(ambientLight);
 
 				guiAnimations = gui.addFolder("animation");
@@ -180,7 +182,9 @@
 				});
 
 				pointVisible.onChange(function (){
+					console.log(pointLight.visible);
 					pointLight.visible = controls.pointLight.visible;
+					console.log(pointLight.visible);
 				});
 
 				pointIntensity.onChange(function (){
