@@ -43,6 +43,7 @@
 					this.intensity = 5;
 					this.visible = true;
 					this.color = 0xffffff;
+					this.distanceOn = false;
 				}
 
 			}
@@ -121,7 +122,7 @@
 				spotLight.castShadow = true;
 				//scene.add(spotLight);
 
-				var pointLight = new THREE.PointLight(0);
+				var pointLight = new THREE.PointLight(0xffffff);
 				pointLight.position.x = 35;
 				pointLight.position.y = 35;
 				pointLight.position.z = 60;
@@ -155,11 +156,20 @@
 				pointIntensity = guiPoint.add(controls.pointLight, 'intensity', 0, 10).listen();
 				pointVisible = guiPoint.add(controls.pointLight, 'visible').listen();
 				pointColor = guiPoint.addColor(controls.pointLight, 'color').listen();
+				pointDistanceOn = guiPoint.add(controls.pointLight, 'distanceOn').listen();
 
 
 
 				//ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
-
+				pointDistanceOn.onChange(function (){
+					if(controls.pointLight.distanceOn == true){
+						console.log("pointLight distanceOn onChange");
+						//pointLight.distance = controls.pointLight.distance;
+					}
+					else {
+						pointLight.distance = 0;
+					}
+				});
 
 				ambientColor.onChange(function (){
 					ambientLight.color.set(new THREE.Color (controls.ambientLight.color));
