@@ -44,6 +44,7 @@
 					this.visible = true;
 					this.color = 0xffffff;
 					this.distanceOn = false;
+					this.distance = 5;
 				}
 
 			}
@@ -157,18 +158,23 @@
 				pointVisible = guiPoint.add(controls.pointLight, 'visible').listen();
 				pointColor = guiPoint.addColor(controls.pointLight, 'color').listen();
 				pointDistanceOn = guiPoint.add(controls.pointLight, 'distanceOn').listen();
-
+				pointDistance = guiPoint.add(controls.pointLight, 'distance', 50 , 300).listen();
 
 
 				//ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
+				function distanceChange(){
+						if(controls.pointLight.distanceOn == true){
+							pointLight.distance = controls.pointLight.distance;
+						} else {
+							console.log("distance off");
+							pointLight.distance = 0;
+						}
+				}
 				pointDistanceOn.onChange(function (){
-					if(controls.pointLight.distanceOn == true){
-						console.log("pointLight distanceOn onChange");
-						//pointLight.distance = controls.pointLight.distance;
-					}
-					else {
-						pointLight.distance = 0;
-					}
+					distanceChange();
+				});
+				pointDistance.onChange(function (){
+					distanceChange();
 				});
 
 				ambientColor.onChange(function (){
