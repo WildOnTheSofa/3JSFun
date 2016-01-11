@@ -116,7 +116,7 @@
 				camera.lookAt(scene.position);
 
 
-				var spotLight = new THREE.SpotLight(0xffffff);
+				var spotLight = new THREE.SpotLight(0);
 				spotLight.position.x = 35;
 				spotLight.position.y = 35;
 				spotLight.position.z = 60;
@@ -124,9 +124,9 @@
 				//scene.add(spotLight);
 
 				var pointLight = new THREE.PointLight(0xffffff);
-				pointLight.position.x = 35;
-				pointLight.position.y = 35;
-				pointLight.position.z = 60;
+				// pointLight.position.x = 35;
+				pointLight.position.y = 25;
+				// pointLight.position.z = 60;
 			//	pointLight.visible = false; // BUG in ThreeJS - doesnt like default of false ???
 				scene.add(pointLight);
 
@@ -198,9 +198,14 @@
 				});
 
 				pointVisible.onChange(function (){
-					console.log(pointLight.visible);
-					pointLight.visible = controls.pointLight.visible;
-					console.log(pointLight.visible);
+						pointLight.visible = controls.pointLight.visible;
+				});
+
+				pointDistanceOn.onChange(function (){
+					distanceChangeSpot();
+				});
+				pointDistance.onChange(function (){
+					distanceChangeSpot();
 				});
 
 				pointIntensity.onChange(function (){
