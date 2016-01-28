@@ -53,6 +53,7 @@
 					this.color = 0x000000;
 					this.distanceOn = false;
 					this.distance = 5;
+					this.castShadow = true;
 				}
 
 			}
@@ -164,47 +165,49 @@
 
 
 
-				 function addLight(folder, lightControl, light){
-					 	var guiPoint = guiLights.addFolder("point light");
- 						var pointIntensity = guiPoint.add(lightControl, 'intensity', 0, 10).listen();
- 						var pointVisible = guiPoint.add(lightControl, 'visible').listen();
- 						var pointColor = guiPoint.addColor(lightControl, 'color').listen();
- 						var pointDistanceOn = guiPoint.add(lightControl, 'distanceOn').listen();
- 						var pointDistance = guiPoint.add(lightControl, 'distance', 50 , 300).listen();
+				function addLight(folder, lightControl, light){
+				   var guiLight = guiLights.addFolder(folder);
+				   var currentIntensity = guiLight.add(lightControl, 'intensity', 0, 10).listen();
+				   var currentVisible = guiLight.add(lightControl, 'visible').listen();
+				   var currentColor = guiLight.addColor(lightControl, 'color').listen();
+				   var currentDistanceOn = guiLight.add(lightControl, 'distanceOn').listen();
+				   var currentDistance = guiLight.add(lightControl, 'distance', 50 , 300).listen();
 
-						pointVisible.onChange(function (){
-								pointLight.visible = lightControl.visible;
-						});
+				   currentVisible.onChange(function (){
+				       light.visible = lightControl.visible;
+				   });
 
 
-						pointIntensity.onChange(function (){
-						  light.intensity = lightControl.intensity;
-						});
+				   currentIntensity.onChange(function (){
+				     light.intensity = lightControl.intensity;
+				   });
 
-						pointColor.onChange(function (){
-							light.color.set(lightControl.color);
-						});
+				   currentColor.onChange(function (){
+				     light.color.set(lightControl.color);
+				   });
 
-						pointDistance.onChange(function (){
-							distanceChange(lightControl, light);
-						});
-						pointDistanceOn.onChange(function (){
-							distanceChange(lightControl, light);
-						});
-						return {pointDistanceOn:pointDistanceOn, pointDistance:pointDistance};
+				   currentDistance.onChange(function (){
+				     distanceChange(lightControl, light);
+				   });
+				   currentDistanceOn.onChange(function (){
+				     distanceChange(lightControl, light);
+				   });
+				   return guiLight;
 				}
 
-				var pointLightRef = Object.create(addLight("point light", controls.pointLight, pointLight));
+				var guiPoint = addLight("point light", controls.pointLight, pointLight);
+				var guiSpot = addLight("spot light", controls.spotLight, spotLight);
+				guiSpot.add(controls.spotLight, 'castShadow');
 
 
 
-				guiSpot = guiLights.addFolder("spot light");
+				/*guiSpot = guiLights.addFolder("spot light");
 
 				spotIntensity = guiSpot.add(controls.spotLight, 'intensity', 0, 10).listen();
 				spotVisible = guiSpot.add(controls.spotLight, 'visible').listen();
 				spotColor = guiSpot.addColor(controls.spotLight, 'color').listen();
 				spotDistanceOn = guiSpot.add(controls.spotLight, 'distanceOn').listen();
-				spotDistance = guiSpot.add(controls.spotLight, 'distance', 50 , 300).listen();
+				spotDistance = guiSpot.add(controls.spotLight, 'distance', 50 , 300).listen();*/
 
 
 				//ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
@@ -249,7 +252,8 @@
 
 
 
-				spotVisible.onChange(function (){
+
+				/*spotVisible.onChange(function (){
 						spotLight.visible = controls.spotLight.visible;
 				});
 
@@ -266,7 +270,7 @@
 
 				spotColor.onChange(function (){
 					spotLight.color.set(controls.spotLight.color);
-				});
+				});*/
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
@@ -274,7 +278,6 @@
 
 				function renderScene(){
 					stats.update();
-				  pointLight.intensity = controls.pointLight.intensity;
 
 					stepBounce += controls.animation.bouncingSpeed/1000;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
