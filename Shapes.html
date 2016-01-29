@@ -18,7 +18,7 @@
 
 		<div id="WebGL-output"></div>
 		<div id="Stats-output"></div>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js" > </script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.min.js" > </script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"> </script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r14/Stats.min.js"></script>
 		<script type="text/javascript">
@@ -49,7 +49,7 @@
 
 				this.spotLight = new function() {
 					this.intensity = 5;
-					this.visible = true;
+					this.visible = false;
 					this.color = 0x000000;
 					this.distanceOn = false;
 					this.distance = 5;
@@ -74,13 +74,13 @@
 				//renderer.setClearColorHex(0xff0000);
 				renderer.setClearColor(new THREE.Color(0xff0000, 1.0));
 				renderer.setSize(width,height);
-				renderer.shadowMapEnabled = true;
+				renderer.shadowMap.enabled = true;
 
 				var axes = new THREE.AxisHelper(20);
 				scene.add(axes);
 
 				var planeGeometry = new THREE.PlaneGeometry(70,20);
-				var planeMaterial = new THREE.MeshLambertMaterial({color: 0xcccccc, ambient:0xcccccc });
+				var planeMaterial = new THREE.MeshLambertMaterial({color: 0xcccccc });
 				var plane = new THREE.Mesh(planeGeometry,planeMaterial);
 				plane.receiveShadow= true;
 				plane.rotation.x = -0.5 * Math.PI;
@@ -91,7 +91,7 @@
 
 
 			 	var cubeGeometry = new THREE.BoxGeometry(6,6,6);
-			 	var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xe3e300, ambient: 0xe3e300});
+			 	var cubeMaterial = new THREE.MeshLambertMaterial({color: 0xe3e300});
 			 	var cube = new THREE.Mesh(cubeGeometry,cubeMaterial);
 				cube.castShadow = true;
 			 	cube.position.x = 0;
@@ -100,7 +100,7 @@
 
 
 			 	var sphereGeometry = new THREE.SphereGeometry(4,20,20);
-			 	var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xcc6633, ambient: 0xcc6633});
+			 	var sphereMaterial = new THREE.MeshLambertMaterial({color: 0xcc6633});
 			 	var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
 			 	sphere.castShadow = true;
 				sphere.rotation.x=0;//-0.5* Math.Pi;
@@ -110,7 +110,7 @@
 			 	scene.add(sphere);
 
 				var cylinderGeometry = new THREE.CylinderGeometry(5,5,10); // Later on i want to position and animate the cylinder.
-				var cylinderMaterial = new THREE.MeshLambertMaterial({color: 0x319057, ambient: 0x319057});
+				var cylinderMaterial = new THREE.MeshLambertMaterial({color: 0x319057});
 				var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
 				cylinder.castShadow= true;
 				cylinder.rotation.z=-0.04*Math.PI;
@@ -130,6 +130,7 @@
 				spotLight.position.y = 35;
 				spotLight.position.z = 60;
 				spotLight.castShadow = true;
+			//	spotLight.visible = false;
 				scene.add(spotLight);
 
 				var pointLight = new THREE.PointLight(0xffffff);
@@ -183,6 +184,7 @@
 				   });
 
 				   currentColor.onChange(function (){
+						 console.log("light.visible",light.visible);
 				     light.color.set(lightControl.color);
 				   });
 
@@ -195,19 +197,15 @@
 				   return guiLight;
 				}
 
+				console.log("light.visible",spotLight.visible);
 				var guiPoint = addLight("point light", controls.pointLight, pointLight);
 				var guiSpot = addLight("spot light", controls.spotLight, spotLight);
+
 				guiSpot.add(controls.spotLight, 'castShadow');
 
 
 
-				/*guiSpot = guiLights.addFolder("spot light");
 
-				spotIntensity = guiSpot.add(controls.spotLight, 'intensity', 0, 10).listen();
-				spotVisible = guiSpot.add(controls.spotLight, 'visible').listen();
-				spotColor = guiSpot.addColor(controls.spotLight, 'color').listen();
-				spotDistanceOn = guiSpot.add(controls.spotLight, 'distanceOn').listen();
-				spotDistance = guiSpot.add(controls.spotLight, 'distance', 50 , 300).listen();*/
 
 
 				//ambientIntensity = guiAmbient.add(controls.ambientLight, 'intensity', 0, 5).listen();
@@ -220,14 +218,6 @@
 						console.log("Light.distance:", light.distance);
 				}
 
-				function distanceChangeSpot(){
-						if(controls.spotLight.distanceOn == true){
-							spotLight.distance = controls.spotLight.distance;
-						} else {
-							console.log("distance off");
-							spotLight.distance = 0;
-						}
-				}
 
 
 				ambientColor.onChange(function (){
@@ -239,38 +229,17 @@
 				});
 
 				cubeAmbient.onChange(function (){
-					cube.material.ambient.set(new THREE.Color (controls.ambientLight.ambientCube));
+					cube.material.color.set(new THREE.Color (controls.ambientLight.ambientCube));
 				});
 
 				sphereAmbient.onChange(function (){
-					sphere.material.ambient.set(new THREE.Color (controls.ambientLight.ambientSphere));
+					sphere.material.color.set(new THREE.Color (controls.ambientLight.ambientSphere));
 				});
 
 				cylinderAmbient.onChange(function (){
-					cylinder.material.ambient.set(new THREE.Color (controls.ambientLight.ambientCylinder));
+					cylinder.material.color.set(new THREE.Color (controls.ambientLight.ambientCylinder));
 				});
 
-
-
-
-				/*spotVisible.onChange(function (){
-						spotLight.visible = controls.spotLight.visible;
-				});
-
-				spotDistanceOn.onChange(function (){
-					distanceChangeSpot();
-				});
-				spotDistance.onChange(function (){
-					distanceChangeSpot();
-				});
-
-				spotIntensity.onChange(function (){
-					spotLight.intensity = controls.spotLight.intensity;
-				});
-
-				spotColor.onChange(function (){
-					spotLight.color.set(controls.spotLight.color);
-				});*/
 
 				document.getElementById("WebGL-output").appendChild(renderer.domElement);
 				renderScene();
