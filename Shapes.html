@@ -33,9 +33,9 @@
 
 				this.ambientLight = new function(){
 					this.color = 0xffffff;
-					this.ambientCube = 0xe3e300;
-					this.ambientSphere = 0xcc6633;
-					this.ambientCylinder = 0x319057;
+					this.colorCube = 0xe3e300;
+					this.colorSphere = 0xcc6633;
+					this.colorCylinder = 0x319057;
 					this.visible = false;
 				}
 
@@ -157,9 +157,9 @@
 				ambientColor = guiAmbient.addColor(controls.ambientLight, 'color').listen();
 				ambientVisible = guiAmbient.add(controls.ambientLight, 'visible').listen();
 
-				cubeAmbient = guiAmbient.addColor(controls.ambientLight, 'ambientCube').listen();
-				sphereAmbient = guiAmbient.addColor(controls.ambientLight, 'ambientSphere').listen();
-				cylinderAmbient = guiAmbient.addColor(controls.ambientLight, 'ambientCylinder').listen();
+				cubeAmbient = guiAmbient.addColor(controls.ambientLight, 'colorCube').listen();
+				sphereAmbient = guiAmbient.addColor(controls.ambientLight, 'colorSphere').listen();
+				cylinderAmbient = guiAmbient.addColor(controls.ambientLight, 'colorCylinder').listen();
 
 
 
@@ -198,12 +198,10 @@
 				}
 
 				console.log("light.visible",spotLight.visible);
-				var guiPoint = addLight("point light", controls.pointLight, pointLight);
-				var guiSpot = addLight("spot light", controls.spotLight, spotLight);
+				guiPoint = addLight("point light", controls.pointLight, pointLight);
+				guiSpot = addLight("spot light", controls.spotLight, spotLight);
 
-				guiSpot.add(controls.spotLight, 'castShadow');
-
-
+				spotShadow = guiSpot.add(controls.spotLight, 'castShadow');
 
 
 
@@ -229,15 +227,15 @@
 				});
 
 				cubeAmbient.onChange(function (){
-					cube.material.color.set(new THREE.Color (controls.ambientLight.ambientCube));
+					cube.material.color.set(new THREE.Color (controls.ambientLight.colorCube));
 				});
 
 				sphereAmbient.onChange(function (){
-					sphere.material.color.set(new THREE.Color (controls.ambientLight.ambientSphere));
+					sphere.material.color.set(new THREE.Color (controls.ambientLight.colorSphere));
 				});
 
 				cylinderAmbient.onChange(function (){
-					cylinder.material.color.set(new THREE.Color (controls.ambientLight.ambientCylinder));
+					cylinder.material.color.set(new THREE.Color (controls.ambientLight.colorCylinder));
 				});
 
 
@@ -247,6 +245,8 @@
 
 				function renderScene(){
 					stats.update();
+
+					spotLight.castShadow = controls.spotLight.castShadow;
 
 					stepBounce += controls.animation.bouncingSpeed/1000;
 					sphere.position.x = 20  + (10 * (Math.cos(stepBounce)));
